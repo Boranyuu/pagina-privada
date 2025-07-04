@@ -62,7 +62,7 @@
 </head>
 <body>
   <div class="corazones">❤️ 💖 💕 💗 💘</div>
-  <h1>Hola mi corazón 🥰</h1>
+  <h1>Oña mi corazón 🥰</h1>
   <p>Esta página es solo para ti. Gracias por estar en mi vida.</p>
   <p>💘Es un poco distinto a lo que me pediste</p>
   <p>Pero me parecía mejor hacerte esto como un recorrido</p>
@@ -88,7 +88,7 @@
 
   <!-- IMAGEN 4 -->
   <div class="img-container">
-    <img src="img/IMAGEN4.jpeg" alt="Imagen 4" />
+    <img src="img/IAMGEN4.jpeg" alt="Imagen 4" />
     <p class="texto-imagen">Las fotos random 💘</p>
   </div>
 
@@ -154,6 +154,32 @@
 
   <p>Te amo con todo mi corazón ❤️</p>
   <div class="corazones">💘 💕 💖 ❤️ 💗</div>
+
+  <div id="collage" class="collage">
+    <h2>Un pequeño collage para ti 💞</h2>
+    <div class="grid-collage">
+      <img src="img/IMAGEN15.jpeg" alt="Imagen 15" />
+      <img src="img/IMAGEN16.jpeg" alt="Imagen 16" />
+      <img src="img/IMAGEN17.jpeg" alt="Imagen 17" />
+      <img src="img/IMAGEN18.jpeg" alt="Imagen 18" />
+      <img src="img/IMAGEN19.jpeg" alt="Imagen 19" />
+      <img src="img/IMAGEN20.jpeg" alt="Imagen 20" />
+      <img src="img/IMAGEN21.jpeg" alt="Imagen 21" />
+      <img src="img/IMAGEN22.jpeg" alt="Imagen 22" />
+    </div>
+    <p style="margin-top: 1.5rem;">Gracias por todos los momentos que hemos vivido 💖</p>
+  </div>
+
+  <script>
+    function mostrarCollage() {
+      const collage = document.getElementById('collage');
+      collage.style.display = 'block';
+      window.scrollTo({
+        top: collage.offsetTop,
+        behavior: 'smooth'
+      });
+    }
+  </script>
 
   <!-- BOTÓN FINAL -->
   <button onclick="alert('Gracias por compartir este momento conmigo 🥰')" class="boton-final">
