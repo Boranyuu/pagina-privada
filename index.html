@@ -58,6 +58,24 @@
       background-color: #ff4d75;
       transform: scale(1.05);
     }
+
+    .collage {
+      display: none;
+      margin-top: 3rem;
+    }
+
+    .grid-collage {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .grid-collage img {
+      width: 100%;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(255, 100, 130, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -68,85 +86,72 @@
   <p>Pero me parecía mejor hacerte esto como un recorrido</p>
   <p>por todo lo que hemos hecho juntos💘</p>
 
-  <!-- IMAGEN 1 -->
+  <!-- IMÁGENES 1 al 14 -->
   <div class="img-container">
     <img src="img/IMAGEN1.jpg" alt="Imagen 1" />
     <p class="texto-imagen">Nuestro primer momento especial, cuando fuimos juntos al cine 💖</p>
   </div>
 
-  <!-- IMAGEN 2 -->
   <div class="img-container">
     <img src="img/IMAGEN2.jpeg" alt="Imagen 2" />
     <p class="texto-imagen">Estar contigo es y será mi lugar seguro ✨</p>
   </div>
 
-  <!-- IMAGEN 3 -->
   <div class="img-container">
     <img src="img/IMAGEN3.jpeg" alt="Imagen 3" />
     <p class="texto-imagen">Nuestras primeras veces saliendo con mis papás ❤️</p>
   </div>
 
-  <!-- IMAGEN 4 -->
   <div class="img-container">
     <img src="img/IAMGEN4.jpeg" alt="Imagen 4" />
     <p class="texto-imagen">Las fotos random 💘</p>
   </div>
 
-  <!-- IMAGEN 5 -->
   <div class="img-container">
     <img src="img/IMAGEN5.jpeg" alt="Imagen 5" />
     <p class="texto-imagen">Ir a tu casa era una rutina muy bonita 💕</p>
   </div>
 
-  <!-- IMAGEN 6 -->
   <div class="img-container">
     <img src="img/IMAGEN6.jpeg" alt="Imagen 6" />
     <p class="texto-imagen">Nuestra primera vez yendo a la playa, un día muy bonito ✨</p>
   </div>
 
-  <!-- IMAGEN 7 -->
   <div class="img-container">
     <img src="img/IMAGEN7.jpeg" alt="Imagen 7" />
     <p class="texto-imagen">Cuando fuimos al parque, te veías muy linda en esta foto 💗</p>
   </div>
 
-  <!-- IMAGEN 8 -->
   <div class="img-container">
     <img src="img/IMAGEN8.jpeg" alt="Imagen 8" />
     <p class="texto-imagen">Tener un hogar donde volver y tenerte fue lo mejor que pude haber hecho ❤️</p>
   </div>
 
-  <!-- IMAGEN 9 -->
   <div class="img-container">
     <img src="img/IMAGEN9.jpeg" alt="Imagen 9" />
     <p class="texto-imagen">Pasar tiempo contigo es algo que no cambiaría jamás 💖</p>
   </div>
 
-  <!-- IMAGEN 10 -->
   <div class="img-container">
     <img src="img/IMAGEN10.jpeg" alt="Imagen 10" />
     <p class="texto-imagen">Estar ahí para ti nunca fue una opción 💘</p>
   </div>
 
-  <!-- IMAGEN 11 -->
   <div class="img-container">
     <img src="img/IMAGEN11.jpeg" alt="Imagen 11" />
     <p class="texto-imagen">Eres mi lugar favorito ❤️</p>
   </div>
 
-  <!-- IMAGEN 12 -->
   <div class="img-container">
     <img src="img/IMAGEN12.jpeg" alt="Imagen 12" />
     <p class="texto-imagen">Guardo las fotos que me envías con mucho amor 💕</p>
   </div>
 
-  <!-- IMAGEN 13 -->
   <div class="img-container">
     <img src="img/IMAGEN13.jpeg" alt="Imagen 13" />
     <p class="texto-imagen">Te amo más de lo que imaginas 💖</p>
   </div>
 
-  <!-- IMAGEN 14 -->
   <div class="img-container">
     <img src="img/IMAGEN14.jpeg" alt="Imagen 14" />
     <p class="texto-imagen">Espero seguir haciendo recuerdos bonitos contigo para siempre ✨</p>
@@ -155,6 +160,12 @@
   <p>Te amo con todo mi corazón ❤️</p>
   <div class="corazones">💘 💕 💖 ❤️ 💗</div>
 
+  <!-- BOTÓN FINAL -->
+  <button onclick="mostrarCollage()" class="boton-final">
+    💌 Un mensajito para ti
+  </button>
+
+  <!-- COLLAGE OCULTO -->
   <div id="collage" class="collage">
     <h2>Un pequeño collage para ti 💞</h2>
     <div class="grid-collage">
@@ -170,6 +181,7 @@
     <p style="margin-top: 1.5rem;">Gracias por todos los momentos que hemos vivido 💖</p>
   </div>
 
+  <!-- SCRIPT -->
   <script>
     function mostrarCollage() {
       const collage = document.getElementById('collage');
@@ -178,12 +190,8 @@
         top: collage.offsetTop,
         behavior: 'smooth'
       });
+      alert('Gracias por compartir este momento conmigo 🥰');
     }
   </script>
-
-  <!-- BOTÓN FINAL -->
-  <button onclick="alert('Gracias por compartir este momento conmigo 🥰')" class="boton-final">
-    💌 Un mensajito para ti
-  </button>
 </body>
 </html>
