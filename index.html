@@ -30,17 +30,9 @@
       box-shadow: 0 0 20px rgba(255, 100, 130, 0.5);
       margin-bottom: 0.5rem;
     }
-    .corazones {
-      font-size: 2rem;
-      animation: flotar 2s infinite ease-in-out;
-    }
     .texto-imagen {
       font-style: italic;
       margin-bottom: 2rem;
-    }
-    @keyframes flotar {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
     }
     .boton-final {
       margin-top: 2rem;
@@ -74,7 +66,7 @@
       box-shadow: 0 0 10px rgba(255, 100, 130, 0.4);
     }
 
-    /* Corazones flotantes */
+    /* Fondo Pochacco flotante */
     .fondo-corazones {
       position: fixed;
       top: 0;
@@ -85,19 +77,21 @@
       overflow: hidden;
       z-index: -1;
     }
-    .corazon {
+
+    .pochacco {
       position: absolute;
-      color: rgba(255, 105, 135, 0.6);
-      font-size: 2rem;
-      animation: flotarCorazon 10s linear infinite;
+      top: -100px;
+      animation: caer 10s linear forwards;
+      opacity: 0.8;
     }
-    @keyframes flotarCorazon {
+
+    @keyframes caer {
       0% {
-        transform: translateY(100vh) scale(1);
+        transform: translateY(0);
         opacity: 1;
       }
       100% {
-        transform: translateY(-10vh) scale(1.5);
+        transform: translateY(100vh);
         opacity: 0;
       }
     }
@@ -117,10 +111,9 @@
 </head>
 <body>
 
-  <!-- Corazones flotantes -->
+  <!-- Fondo de Pochaccos flotantes -->
   <div class="fondo-corazones" id="fondoCorazones"></div>
 
-  <div class="corazones">❤️ 💖 💕 💗 💘</div>
   <h1>Oña mi corazón 🥰</h1>
   <p>Esta página es solo para ti. Gracias por estar en mi vida.</p>
   <p>Es un poco distinto a lo que me pediste.</p>
@@ -199,7 +192,6 @@
   </div>
 
   <p>Te amo con todo mi corazón ❤️</p>
-  <div class="corazones">💘 💕 💖 ❤️ 💗</div>
 
   <!-- Botón para mostrar collage -->
   <button onclick="mostrarCollage()" class="boton-final">💌 Pulsame 💌</button>
@@ -266,16 +258,17 @@
       window.scrollTo({ top: document.getElementById('carta').offsetTop, behavior: 'smooth' });
     }
 
-    function crearCorazon() {
-      const corazon = document.createElement('div');
-      corazon.className = 'corazon';
-      corazon.textContent = '❤️';
-      corazon.style.left = Math.random() * 100 + 'vw';
-      corazon.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
-      document.getElementById('fondoCorazones').appendChild(corazon);
-      setTimeout(() => corazon.remove(), 10000);
+    function crearPochacco() {
+      const img = document.createElement('img');
+      img.src = 'img/pochacco.png';
+      img.className = 'pochacco';
+      img.style.left = Math.random() * 100 + 'vw';
+      img.style.width = (Math.random() * 40 + 30) + 'px';
+      img.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      document.getElementById('fondoCorazones').appendChild(img);
+      setTimeout(() => img.remove(), 10000);
     }
-    setInterval(crearCorazon, 500);
+    setInterval(crearPochacco, 700);
   </script>
 
 </body>
