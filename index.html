@@ -213,13 +213,15 @@
   </div>
 
   <!-- Frases de amor -->
-  <p id="fraseAmor"></p>
+  <div id="cajaFrase" style="display: none; background-color: #fff0f5; border-radius: 1rem; padding: 1rem 2rem; max-width: 600px; margin: 2rem auto; box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);">
+    <p id="fraseAmor" style="font-style: italic; font-size: 1.2rem; color: #700028;"></p>
+  </div>
   <button onclick="mostrarFrase()" class="boton-final">💞 Dime algo lindo 💞</button>
 
   <!-- Carta -->
   <button onclick="mostrarCarta()" class="boton-final">💌 Lee mi cartita 💌</button>
-  <div id="carta">
-    <p style="white-space: pre-wrap; font-size: 1.2rem; max-width: 600px; margin: auto;">
+  <div id="carta" style="display: none; background-color: #fff0f5; border-radius: 1rem; padding: 2rem; max-width: 600px; margin: 2rem auto; box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);">
+    <p style="white-space: pre-wrap; font-size: 1.2rem; color: #700028;">
       Mi amor:
 
       No hay palabras suficientes para decirte cuánto te amo.
@@ -230,6 +232,7 @@
       ❤️
     </p>
   </div>
+
 
   <!-- Scripts -->
   <script>
@@ -249,8 +252,11 @@
       "Gracias por existir en mi vida."
     ];
     function mostrarFrase() {
-      const random = frases[Math.floor(Math.random() * frases.length)];
-      document.getElementById('fraseAmor').textContent = random;
+    const random = frases[Math.floor(Math.random() * frases.length)];
+    const fraseCaja = document.getElementById('cajaFrase');
+    document.getElementById('fraseAmor').textContent = random;
+    fraseCaja.style.display = 'block';
+    window.scrollTo({ top: fraseCaja.offsetTop, behavior: 'smooth' });
     }
 
     function mostrarCarta() {
