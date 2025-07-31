@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Para ti ❤️</title>
   <style>
-    body {
+       body {
       margin: 0;
       padding: 2rem;
       font-family: 'Comic Sans MS', sans-serif;
@@ -100,12 +100,66 @@
     #carta {
       display: none;
       margin-top: 2rem;
+      background-color: #fff0f5;
+      border-radius: 1rem;
+      padding: 2.5rem 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
+      color: #700028;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
     }
+
     #fraseAmor {
       font-style: italic;
       font-size: 1.3rem;
       max-width: 600px;
       margin: 1rem auto;
+    }
+
+    #fotoBorrosa { 
+      width: 100%; 
+      max-height: 300px; 
+      object-fit: cover; 
+      filter: blur(8px); 
+      border-radius: 8px; 
+      margin-top: 1rem;
+    }
+
+    .opcion-btn {
+      display: block;
+      margin: 0.5rem auto;
+      padding: 0.7rem 1rem;
+      width: 80%;
+      font-size: 1rem;
+      background-color: #ff6f91;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .opcion-btn:hover:not(:disabled) {
+      background-color: #ff476f;
+    }
+    #resultado {
+      font-size: 1.3rem;
+      margin: 1rem 0;
+      height: 2rem;
+    }
+    #reiniciarJuego {
+      display: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      background-color: #008000;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 2rem;
     }
   </style>
 </head>
@@ -246,31 +300,31 @@
   <p>❤️</p>
 </div>
 
+
 <!-- Minijuego Adivina el Recuerdo -->
-<section id="adivinaRecuerdo" style="max-width: 600px; margin: 3rem auto; padding: 1rem; background: #fff0f5; border-radius: 1rem; box-shadow: 0 4px 10px rgba(255,100,130,0.2); color: #700028;">
-  <h2>Adivina el Recuerdo 💭</h2>
-  <p>¿Cuál de estos momentos corresponde a la foto borrosa?</p>
-  <div style="margin: 1.5rem 0;">
-    <img id="fotoBorrosa" src="img/IMAGEN9.jpeg" alt="Recuerdo borroso" style="width: 100%; border-radius: 1rem; filter: blur(8px); transition: filter 0.5s ease;">
-  </div>
+<h1>Adivina el recuerdo</h1>
 
-  <div id="opciones" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-    <button class="opcion-btn" data-respuesta="0" style="padding: 0.8rem; border-radius: 1rem; border: none; background-color: #ff6f91; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Estar juntos en el cine</button>
-    <button class="opcion-btn" data-respuesta="1" style="padding: 0.8rem; border-radius: 1rem; border: none; background-color: #ff6f91; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Pasar tiempo contigo es algo que no cambiaría jamás</button>
-    <button class="opcion-btn" data-respuesta="2" style="padding: 0.8rem; border-radius: 1rem; border: none; background-color: #ff6f91; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Nuestra primera vez yendo a la playa</button>
-    <button class="opcion-btn" data-respuesta="3" style="padding: 0.8rem; border-radius: 1rem; border: none; background-color: #ff6f91; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Ir a tu casa era una rutina muy bonita</button>
-  </div>
+<!-- Imagen borrosa que se irá revelando -->
+<img id="fotoBorrosa" src="" alt="Foto borrosa del recuerdo" style="max-width: 100%; display: block; margin: 20px auto;" />
 
-  <p id="resultado" style="font-weight: bold; margin-top: 1.5rem; min-height: 1.5rem;"></p>
+<!-- Contenedor donde se crean los botones con las opciones -->
+<div id="opciones" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px;">
+  <!-- Botones generados por JavaScript -->
+</div>
 
-  <button id="reiniciarJuego" style="margin-top: 1rem; display:none; background-color: #ff4d75; border: none; padding: 0.8rem 2rem; color: white; border-radius: 1.5rem; cursor: pointer;">Jugar otra vez</button>
-</section>
+<!-- Texto para mostrar el resultado (correcto o no) -->
+<div id="resultado" style="text-align: center; font-weight: bold; font-size: 1.2rem; min-height: 1.5em; margin-bottom: 20px;"></div>
 
+<!-- Botón para pasar a la siguiente imagen -->
+<button id="reiniciarJuego" style="display: none; margin: 0 auto; padding: 10px 20px; font-size: 1rem; cursor: pointer;">
+  Siguiente imagen
+</button>
 
 
-  <!-- Scripts -->
+
+<!-- Scripts -->
 <script>
-  // Tus funciones previas para otras partes
+  // Función para mostrar el collage y hacer scroll suave
   function mostrarCollage() {
     const collage = document.getElementById('collage');
     collage.style.display = 'block';
@@ -278,6 +332,7 @@
     alert('Gracias por compartir este momento conmigo 🥰');
   }
 
+  // Frases bonitas para mostrar en la carta
   const frases = [
     "Eres mi persona favorita.",
     "Cada momento contigo es mi favorito.",
@@ -296,10 +351,12 @@
   }
 
   function mostrarCarta() {
-    document.getElementById('carta').style.display = 'block';
-    window.scrollTo({ top: document.getElementById('carta').offsetTop, behavior: 'smooth' });
+    const carta = document.getElementById('carta');
+    carta.style.display = 'block';
+    window.scrollTo({ top: carta.offsetTop, behavior: 'smooth' });
   }
 
+  // Fondo animado con pochaccos que caen
   function crearPochacco() {
     const img = document.createElement('img');
     img.src = 'img/pochacco.webp';
@@ -312,18 +369,39 @@
   }
   setInterval(crearPochacco, 700);
 
-  // Esperar a que el DOM esté cargado para acceder a elementos
+  // Esperar a que el DOM esté listo para iniciar el juego
   document.addEventListener('DOMContentLoaded', () => {
-    const fotos = [
-      {src: 'img/IMAGEN9.jpeg', correcta: 1},
-      {src: 'img/IMAGEN1.jpg', correcta: 0},
-      {src: 'img/IMAGEN6.jpeg', correcta: 2},
-      {src: 'img/IMAGEN5.jpeg', correcta: 3},
+
+    // Recuerdos con imagen y texto para el minijuego
+    const recuerdos = [
+      {
+        src: 'img/IMAGEN4.jpeg',  // Corregido el nombre aquí
+        texto: 'Las fotos random 💘'
+      },
+      {
+        src: 'img/IMAGEN5.jpeg',
+        texto: 'Ir a tu casa era una rutina muy bonita 💕'
+      },
+      {
+        src: 'img/IMAGEN6.jpeg',
+        texto: 'Nuestra primera vez yendo a la playa, un día muy bonito ✨'
+      },
+      {
+        src: 'img/IMAGEN7.jpeg',
+        texto: 'Cuando fuimos al parque, te veías muy linda en esta foto 💗'
+      },
+      {
+        src: 'img/IMAGEN8.jpeg',
+        texto: 'Tener un hogar donde volver y tenerte fue lo mejor que pude haber hecho ❤️'
+      },
+      {
+        src: 'img/IMAGEN9.jpeg',
+        texto: 'Pasar tiempo contigo es algo que no cambiaría jamás 💖'
+      },
     ];
 
-    // Elementos del juego
     const fotoBorrosa = document.getElementById('fotoBorrosa');
-    const opcionesBtns = document.querySelectorAll('.opcion-btn');
+    const opcionesDiv = document.getElementById('opciones');
     const resultado = document.getElementById('resultado');
     const reiniciarBtn = document.getElementById('reiniciarJuego');
 
@@ -332,28 +410,60 @@
       terminado: false
     };
 
+    // Función para mezclar un array (Fisher-Yates)
+    function mezclarArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Carga el estado del juego actual
     function cargarJuego() {
       estadoJuego.terminado = false;
       resultado.textContent = '';
       reiniciarBtn.style.display = 'none';
-      opcionesBtns.forEach(btn => {
-        btn.disabled = false;
-        btn.style.backgroundColor = '#ff6f91';
-      });
-      const juego = fotos[estadoJuego.actual];
-      fotoBorrosa.src = juego.src;
+      opcionesDiv.innerHTML = '';
+
+      const actualRecuerdo = recuerdos[estadoJuego.actual];
+      fotoBorrosa.src = actualRecuerdo.src;
       fotoBorrosa.style.filter = 'blur(8px)';
+
+      // Construir opciones: texto correcto + 3 textos aleatorios distintos
+      let opcionesTexto = [actualRecuerdo.texto];
+
+      // Obtener otras frases excluyendo la actual
+      const otrasFrases = recuerdos
+        .filter((_, idx) => idx !== estadoJuego.actual)
+        .map(r => r.texto);
+
+      mezclarArray(otrasFrases);
+
+      opcionesTexto = opcionesTexto.concat(otrasFrases.slice(0, 3));
+
+      // Mezclar las opciones para que la correcta no esté siempre en la misma posición
+      mezclarArray(opcionesTexto);
+
+      // Crear botones para las opciones
+      opcionesTexto.forEach(texto => {
+        const btn = document.createElement('button');
+        btn.className = 'opcion-btn';
+        btn.textContent = texto;
+        btn.onclick = () => manejarClick(btn, actualRecuerdo.texto);
+        opcionesDiv.appendChild(btn);
+      });
     }
 
-    function manejarClick(event) {
+    // Maneja el click en una opción
+    function manejarClick(boton, textoCorrecto) {
       if (estadoJuego.terminado) return;
-      const btn = event.target;
-      const elegido = parseInt(btn.getAttribute('data-respuesta'));
-      const juego = fotos[estadoJuego.actual];
+      estadoJuego.terminado = true;
 
-      opcionesBtns.forEach(b => b.disabled = true);
+      const botones = document.querySelectorAll('.opcion-btn');
+      botones.forEach(btn => btn.disabled = true);
 
-      if (elegido === juego.correcta) {
+      if (boton.textContent === textoCorrecto) {
         resultado.textContent = '¡Correcto! ❤️';
         resultado.style.color = '#008000';
         fotoBorrosa.style.filter = 'none';
@@ -361,21 +471,21 @@
         resultado.textContent = '¡Casi! Intenta otra vez.';
         resultado.style.color = '#cc0000';
       }
-      estadoJuego.terminado = true;
+
       reiniciarBtn.style.display = 'inline-block';
     }
 
-    function reiniciarJuego() {
-      estadoJuego.actual = (estadoJuego.actual + 1) % fotos.length;
+    // Al hacer click en reiniciar, avanzar al siguiente recuerdo
+    reiniciarBtn.addEventListener('click', () => {
+      estadoJuego.actual = (estadoJuego.actual + 1) % recuerdos.length;
       cargarJuego();
-    }
+    });
 
-    opcionesBtns.forEach(btn => btn.addEventListener('click', manejarClick));
-    reiniciarBtn.addEventListener('click', reiniciarJuego);
-
+    // Cargar juego al inicio
     cargarJuego();
   });
 </script>
+
 
 
 </body>
