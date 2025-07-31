@@ -246,6 +246,24 @@
   <p>❤️</p>
 </div>
 
+<div style="margin: 2rem auto; max-width: 400px; text-align: center; font-family: 'Comic Sans MS', sans-serif; color: #700028;">
+  <h2>🤗 Contador de abrazos 🤗</h2>
+  <button id="botonAbrazo" style="
+    background-color: #ff6f91;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.3rem;
+    color: white;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
+    transition: background-color 0.3s;
+  ">Dame un abrazo</button>
+  <p id="contador" style="font-size: 2rem; margin-top: 1rem;">Abrazos dados: 0</p>
+</div>
+
+<!-- Sonido de abrazo -->
+<audio id="sonidoAbrazo" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
 
 
   <!-- Scripts -->
@@ -289,6 +307,27 @@
       setTimeout(() => img.remove(), 10000);
     }
     setInterval(crearPochacco, 700);
+
+      const boton = document.getElementById('botonAbrazo');
+    const contadorTexto = document.getElementById('contador');
+    const sonido = document.getElementById('sonidoAbrazo');
+
+    let contador = 0;
+
+    boton.addEventListener('click', () => {
+      contador++;
+      contadorTexto.textContent = `Abrazos dados: ${contador}`;
+
+      // Reproducir sonido tierno
+      sonido.currentTime = 0;
+      sonido.play();
+
+      // Animación simple de escalado
+      boton.style.transform = 'scale(1.1)';
+      setTimeout(() => {
+        boton.style.transform = 'scale(1)';
+      }, 150);
+    });
   </script>
 
 </body>
