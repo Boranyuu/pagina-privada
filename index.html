@@ -246,89 +246,137 @@
   <p>❤️</p>
 </div>
 
-<div style="margin: 2rem auto; max-width: 400px; text-align: center; font-family: 'Comic Sans MS', sans-serif; color: #700028;">
-  <h2>🤗 Contador de abrazos 🤗</h2>
-  <button id="botonAbrazo" style="
-    background-color: #ff6f91;
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.3rem;
-    color: white;
-    border-radius: 1.5rem;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
-    transition: background-color 0.3s;
-  ">Dame un abrazo</button>
-  <p id="contador" style="font-size: 2rem; margin-top: 1rem;">Abrazos dados: 0</p>
-</div>
+<!-- Minijuego Adivina el Recuerdo -->
+<section id="adivinaRecuerdo" style="max-width: 600px; margin: 3rem auto; padding: 1rem; background: #fff0f5; border-radius: 1rem; box-shadow: 0 4px 10px rgba(255,100,130,0.2); color: #700028;">
+  <h2>Adivina el Recuerdo 💭</h2>
+  <p>¿Cuál de estos momentos corresponde a la foto borrosa?</p>
+  <div style="margin: 1.5rem 0;">
+    <img id="fotoBorrosa" src="img/IMAGEN9.jpeg" alt="Recuerdo borroso" style="width: 100%; border-radius: 1rem; filter: blur(8px); transition: filter 0.5s ease;">
+  </div>
 
-<!-- Sonido de abrazo -->
-<audio id="sonidoAbrazo" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
+  <div id="opciones" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+    <button class="opcion-btn" data-respuesta="0" style="padding: 0.8rem; border-radius: 1rem; border: none; background-color: #ff6f91; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Estar juntos en el cine</button>
+    <button class="opcion-btn" data-respuesta="1" style="padding: 0.8rem; border-radius: 1rem; border: none; background-color: #ff6f91; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Pasar tiempo contigo es algo que no cambiaría jamás</button>
+    <button class="opcion-btn" data-respuesta="2" style="padding: 0.8rem; border-radius: 1rem; border: none; background-color: #ff6f91; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Nuestra primera vez yendo a la playa</button>
+    <button class="opcion-btn" data-respuesta="3" style="padding: 0.8rem; border-radius: 1rem; border: none; background-color: #ff6f91; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Ir a tu casa era una rutina muy bonita</button>
+  </div>
+
+  <p id="resultado" style="font-weight: bold; margin-top: 1.5rem; min-height: 1.5rem;"></p>
+
+  <button id="reiniciarJuego" style="margin-top: 1rem; display:none; background-color: #ff4d75; border: none; padding: 0.8rem 2rem; color: white; border-radius: 1.5rem; cursor: pointer;">Jugar otra vez</button>
+</section>
+
 
 
   <!-- Scripts -->
-  <script>
-    function mostrarCollage() {
-      const collage = document.getElementById('collage');
-      collage.style.display = 'block';
-      window.scrollTo({ top: collage.offsetTop, behavior: 'smooth' });
-      alert('Gracias por compartir este momento conmigo 🥰');
-    }
+<script>
+  // Tus funciones previas para otras partes
+  function mostrarCollage() {
+    const collage = document.getElementById('collage');
+    collage.style.display = 'block';
+    window.scrollTo({ top: collage.offsetTop, behavior: 'smooth' });
+    alert('Gracias por compartir este momento conmigo 🥰');
+  }
 
-    const frases = [
-      "Eres mi persona favorita.",
-      "Cada momento contigo es mi favorito.",
-      "Tú haces que todo valga la pena.",
-      "No necesito nada más si te tengo a ti.",
-      "Te amo más de lo que las palabras pueden decir.",
-      "Gracias por existir en mi vida."
-    ];
-    function mostrarFrase() {
+  const frases = [
+    "Eres mi persona favorita.",
+    "Cada momento contigo es mi favorito.",
+    "Tú haces que todo valga la pena.",
+    "No necesito nada más si te tengo a ti.",
+    "Te amo más de lo que las palabras pueden decir.",
+    "Gracias por existir en mi vida."
+  ];
+
+  function mostrarFrase() {
     const random = frases[Math.floor(Math.random() * frases.length)];
     const fraseCaja = document.getElementById('cajaFrase');
     document.getElementById('fraseAmor').textContent = random;
     fraseCaja.style.display = 'block';
     window.scrollTo({ top: fraseCaja.offsetTop, behavior: 'smooth' });
+  }
+
+  function mostrarCarta() {
+    document.getElementById('carta').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('carta').offsetTop, behavior: 'smooth' });
+  }
+
+  function crearPochacco() {
+    const img = document.createElement('img');
+    img.src = 'img/pochacco.webp';
+    img.className = 'pochacco';
+    img.style.left = Math.random() * 100 + 'vw';
+    img.style.width = (Math.random() * 40 + 30) + 'px';
+    img.style.animationDuration = (Math.random() * 5 + 5) + 's';
+    document.getElementById('fondoCorazones').appendChild(img);
+    setTimeout(() => img.remove(), 10000);
+  }
+  setInterval(crearPochacco, 700);
+
+  // Esperar a que el DOM esté cargado para acceder a elementos
+  document.addEventListener('DOMContentLoaded', () => {
+    const fotos = [
+      {src: 'img/IMAGEN9.jpeg', correcta: 1},
+      {src: 'img/IMAGEN1.jpg', correcta: 0},
+      {src: 'img/IMAGEN6.jpeg', correcta: 2},
+      {src: 'img/IMAGEN5.jpeg', correcta: 3},
+    ];
+
+    // Elementos del juego
+    const fotoBorrosa = document.getElementById('fotoBorrosa');
+    const opcionesBtns = document.querySelectorAll('.opcion-btn');
+    const resultado = document.getElementById('resultado');
+    const reiniciarBtn = document.getElementById('reiniciarJuego');
+
+    let estadoJuego = {
+      actual: 0,
+      terminado: false
+    };
+
+    function cargarJuego() {
+      estadoJuego.terminado = false;
+      resultado.textContent = '';
+      reiniciarBtn.style.display = 'none';
+      opcionesBtns.forEach(btn => {
+        btn.disabled = false;
+        btn.style.backgroundColor = '#ff6f91';
+      });
+      const juego = fotos[estadoJuego.actual];
+      fotoBorrosa.src = juego.src;
+      fotoBorrosa.style.filter = 'blur(8px)';
     }
 
-    function mostrarCarta() {
-      document.getElementById('carta').style.display = 'block';
-      window.scrollTo({ top: document.getElementById('carta').offsetTop, behavior: 'smooth' });
+    function manejarClick(event) {
+      if (estadoJuego.terminado) return;
+      const btn = event.target;
+      const elegido = parseInt(btn.getAttribute('data-respuesta'));
+      const juego = fotos[estadoJuego.actual];
+
+      opcionesBtns.forEach(b => b.disabled = true);
+
+      if (elegido === juego.correcta) {
+        resultado.textContent = '¡Correcto! ❤️';
+        resultado.style.color = '#008000';
+        fotoBorrosa.style.filter = 'none';
+      } else {
+        resultado.textContent = '¡Casi! Intenta otra vez.';
+        resultado.style.color = '#cc0000';
+      }
+      estadoJuego.terminado = true;
+      reiniciarBtn.style.display = 'inline-block';
     }
 
-    function crearPochacco() {
-      const img = document.createElement('img');
-      img.src = 'img/pochacco.webp';
-      img.className = 'pochacco';
-      img.style.left = Math.random() * 100 + 'vw';
-      img.style.width = (Math.random() * 40 + 30) + 'px';
-      img.style.animationDuration = (Math.random() * 5 + 5) + 's';
-      document.getElementById('fondoCorazones').appendChild(img);
-      setTimeout(() => img.remove(), 10000);
+    function reiniciarJuego() {
+      estadoJuego.actual = (estadoJuego.actual + 1) % fotos.length;
+      cargarJuego();
     }
-    setInterval(crearPochacco, 700);
 
-      const boton = document.getElementById('botonAbrazo');
-    const contadorTexto = document.getElementById('contador');
-    const sonido = document.getElementById('sonidoAbrazo');
+    opcionesBtns.forEach(btn => btn.addEventListener('click', manejarClick));
+    reiniciarBtn.addEventListener('click', reiniciarJuego);
 
-    let contador = 0;
+    cargarJuego();
+  });
+</script>
 
-    boton.addEventListener('click', () => {
-      contador++;
-      contadorTexto.textContent = `Abrazos dados: ${contador}`;
-
-      // Reproducir sonido tierno
-      sonido.currentTime = 0;
-      sonido.play();
-
-      // Animación simple de escalado
-      boton.style.transform = 'scale(1.1)';
-      setTimeout(() => {
-        boton.style.transform = 'scale(1)';
-      }, 150);
-    });
-  </script>
 
 </body>
 </html>
