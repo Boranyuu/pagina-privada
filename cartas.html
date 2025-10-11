@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cartas 💌</title>
 
-  <!-- CSS internos -->
   <style>
     /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,7 +14,7 @@
       text-align: center;
       background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
       color: #700028;
-      padding: 6rem 1rem 2rem 1rem; /* espacio para navbar */
+      padding: 6rem 1rem 2rem 1rem; 
       overflow-x: hidden;
     }
 
@@ -33,7 +32,6 @@
       padding: 1rem 2rem;
       z-index: 1000;
     }
-
     .navbar-logo { font-size: 1.3rem; font-weight: bold; color: #700028; }
     .navbar-links a { color: #700028; text-decoration: none; margin-left: 1.5rem; font-size: 1.1rem; transition: color 0.3s; }
     .navbar-links a:hover { color: #ff4d75; }
@@ -46,12 +44,15 @@
       padding: 2rem 1.5rem;
       max-width: 600px;
       margin: 2rem auto;
-      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
+      box-shadow: 0 4px 15px rgba(255, 100, 130, 0.25);
       color: #700028;
       font-size: 1.1rem;
-      line-height: 1.6;
-      text-align: left;
+      line-height: 1.7;
+      text-align: center;  /* Centrado de texto */
       white-space: pre-wrap;
+    }
+    .carta p {
+      margin-bottom: 1rem; /* separación entre párrafos */
     }
 
     .boton-final {
