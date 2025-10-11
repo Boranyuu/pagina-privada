@@ -1,162 +1,266 @@
-    body {
-      margin: 0;
-      padding: 2rem;
-      font-family: 'Comic Sans MS', sans-serif;
-      text-align: center;
-      background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
-      color: #700028;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-top: 1rem;
-    }
-    p {
-      font-size: 1.2rem;
-      margin: 1.5rem 0;
-    }
-    .img-container {
-      margin: 2rem 0;
-    }
-    img {
-      max-width: 90%;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(255, 100, 130, 0.5);
-      margin-bottom: 0.5rem;
-    }
-    .texto-imagen {
-      font-style: italic;
-      margin-bottom: 2rem;
-    }
-    .boton-final {
-      margin-top: 2rem;
-      background-color: #ff6f91;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      color: white;
-      border-radius: 1.5rem;
-      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
-      cursor: pointer;
-      transition: transform 0.2s, background-color 0.3s;
-    }
-    .boton-final:hover {
-      background-color: #ff4d75;
-      transform: scale(1.05);
-    }
-    .collage {
-      display: none;
-      margin-top: 3rem;
-    }
-    .grid-collage {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-    }
-    .grid-collage img {
-      width: 100%;
-      border-radius: 1rem;
-      box-shadow: 0 0 10px rgba(255, 100, 130, 0.4);
-    }
+/* 🌸 Reset global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    /* Fondo Pochacco flotante */
-    .fondo-corazones {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: -1;
-    }
+/* 🌸 Estilo general */
+body {
+  font-family: 'Comic Sans MS', sans-serif;
+  text-align: center;
+  background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
+  color: #700028;
+  padding: 2rem 1rem;
+  overflow-x: hidden;
+}
 
-    .pochacco {
-      position: absolute;
-      top: -100px;
-      animation: caer 10s linear forwards;
-      opacity: 0.8;
-    }
+/* Encabezado */
+h1 {
+  font-size: 2.3rem;
+  margin-top: 1rem;
+}
 
-    @keyframes caer {
-      0% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
+p {
+  font-size: 1.1rem;
+  margin: 1.2rem 0;
+  line-height: 1.5;
+}
 
-    /* Carta */
-    #carta {
-      display: none;
-      margin-top: 2rem;
-      background-color: #fff0f5;
-      border-radius: 1rem;
-      padding: 2.5rem 3rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
-      color: #700028;
-      font-size: 1.2rem;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
+/* 🌸 Contenedores e imágenes */
+.img-container {
+  margin: 2rem 0;
+}
 
-    #fraseAmor {
-      font-style: italic;
-      font-size: 1.3rem;
-      max-width: 600px;
-      margin: 1rem auto;
-    }
+img {
+  max-width: 90%;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(255, 100, 130, 0.5);
+  margin-bottom: 0.5rem;
+}
 
-    #fotoBorrosa { 
-      width: 100%; 
-      max-height: 300px; 
-      object-fit: cover; 
-      filter: blur(8px); 
-      border-radius: 8px; 
-      margin-top: 1rem;
-    }
+.texto-imagen {
+  font-style: italic;
+  margin-bottom: 2rem;
+}
 
-    .opcion-btn {
-      display: block;
-      margin: 0.5rem auto;
-      padding: 0.7rem 1rem;
-      width: 80%;
-      font-size: 1rem;
-      background-color: #ff6f91;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .opcion-btn:hover:not(:disabled) {
-      background-color: #ff476f;
-    }
-    #resultado {
-      font-size: 1.3rem;
-      margin: 1rem 0;
-      height: 2rem;
-    }
-    #reiniciarJuego {
-      display: none;
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
-      background-color: #008000;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-bottom: 2rem;
-    }
+/* 🌸 Botones principales */
+.boton-final {
+  margin-top: 2rem;
+  background-color: #ff6f91;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  color: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+}
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+.boton-final:hover {
+  background-color: #ff4d75;
+  transform: scale(1.05);
+}
+
+/* 🌸 Collage */
+.collage {
+  display: none;
+  margin-top: 3rem;
+}
+
+.grid-collage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.grid-collage img {
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(255, 100, 130, 0.4);
+}
+
+/* 🌸 Fondo Pochacco flotante */
+.fondo-corazones {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.pochacco {
+  position: absolute;
+  top: -100px;
+  animation: caer 10s linear forwards;
+  opacity: 0.8;
+}
+
+@keyframes caer {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* 🌸 Carta */
+#carta {
+  display: none;
+  margin-top: 2rem;
+  background-color: #fff0f5;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
+  color: #700028;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* 🌸 Frase de amor */
+#fraseAmor {
+  font-style: italic;
+  font-size: 1.3rem;
+  max-width: 600px;
+  margin: 1rem auto;
+}
+
+/* 🌸 Imagen borrosa */
+#fotoBorrosa {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  filter: blur(8px);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* 🌸 Botones del juego */
+.opcion-btn {
+  display: block;
+  margin: 0.5rem auto;
+  padding: 0.8rem 1rem;
+  width: 85%;
+  font-size: 1rem;
+  background-color: #ff6f91;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.opcion-btn:hover:not(:disabled) {
+  background-color: #ff476f;
+}
+
+#resultado {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  height: 2rem;
+}
+
+#reiniciarJuego {
+  display: none;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  background-color: #008000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+/* 🌸 Navbar superior */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffb6c1;
+  box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  z-index: 1000;
+  font-family: 'Comic Sans MS', sans-serif;
+}
+
+.navbar-logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #700028;
+}
+
+.navbar-links a {
+  color: #700028;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.navbar-links a:hover {
+  color: #ff4d75;
+}
+
+/* 🌸 Ajustes responsivos para iPhone 11 y móviles */
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.8rem 1rem;
+  }
+
+  .navbar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .navbar-links a {
+    font-size: 0.95rem;
+    margin-left: 0;
+  }
+
+  .boton-final {
+    width: 90%;
+    font-size: 1rem;
+  }
+
+  .grid-collage {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  #carta {
+    padding: 1.5rem 1rem;
+    font-size: 1rem;
+  }
+}
