@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartita de Amor 💌</title>
+
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
+      color: #700028;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb6c1;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+    }
+
+    .navbar-logo {
+      font-size: 1.2rem;
+    }
+
+    .navbar-links a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #700028;
+      font-weight: bold;
+    }
+
+    .navbar-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Carta completa */
+    #carta {
+      background-color: #fff0f5;
+      border-radius: 1rem;
+      padding: 2.5rem 3rem;
+      max-width: 600px;
+      margin: 120px auto 2rem auto; /* 120px para dejar espacio por navbar */
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
+      color: #700028;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    /* Botón volver */
+    .boton-final {
+      margin-top: 2rem;
+      background-color: #ff6f91;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      color: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    .boton-final:hover {
+      background-color: #ff4d75;
+      transform: scale(1.05);
+    }
+
+    /* Responsive para móviles / iPhone 11 */
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+
+      #carta {
+        padding: 2rem 1.5rem;
+        font-size: 1rem;
+        margin-top: 100px;
+      }
+
+      .boton-final {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar-links {
+        margin-top: 0.5rem;
+      }
+
+      .navbar-links a {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-logo">💌 Para Ti</div>
+    <nav class="navbar-links">
+      <a href="index.html">Inicio</a>
+      <a href="cartas.html">Cartas</a>
+      <!-- Aquí puedes agregar más enlaces si quieres -->
+    </nav>
+  </header>
+
+  <h1>💌 Mi cartita para ti 💌</h1>
+
+  <!-- Carta completa -->
+  <div id="carta">
+    <p>Mi amor:</p>
+    <p>
+      No hay palabras suficientes para decirte cuánto te amo.<br>
+      Gracias por estar, por cuidar de mí, por tus abrazos y por cada sonrisa que me regalas.<br>
+      Cada momento contigo ha sido un regalo y no puedo esperar por todos los que vendrán.
+    </p>
+    <p>Siempre tuyo,</p>
+    <p>❤️</p>
+  </div>
+
+  <!-- Botón volver al inicio -->
+  <a href="index.html"><button class="boton-final">🏠 Volver al inicio</button></a>
+
+</body>
+</html>
