@@ -1,16 +1,21 @@
+/* Navbar */
 .navbar {
   position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;           /* Asegúrate de que esté alineado a la izquierda */
+  width: 100%;       /* Ocupa todo el ancho */
+  margin: 0;         /* Elimina cualquier margen */
+  padding: 1rem 2rem;/* Puedes mantener padding para separar contenido interno */
   background-color: #ffb6c1;
   box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
   z-index: 1000;
   font-family: 'Comic Sans MS', sans-serif;
+  box-sizing: border-box; /* Asegura que padding no aumente el ancho total */
 }
+
 
 .navbar-logo {
   font-size: 1.3rem;
