@@ -5,48 +5,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cartas 💌</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/navbar.css">
-  <link rel="stylesheet" href="css/styles.css"> <!-- Opcional: estilos generales -->
-
-  <!-- Estilos específicos para cartas -->
+  <!-- CSS internos -->
   <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Comic Sans MS', sans-serif;
+      text-align: center;
       background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
       color: #700028;
-      text-align: center;
-      padding-top: 6rem; /* espacio para navbar fijo */
+      padding: 6rem 1rem 2rem 1rem; /* espacio para navbar */
+      overflow-x: hidden;
     }
 
-    main {
-      margin: 0 auto;
-      max-width: 700px;
-      padding: 1rem;
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb6c1;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
     }
 
+    .navbar-logo {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #700028;
+    }
+
+    .navbar-links a {
+      color: #700028;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+
+    .navbar-links a:hover {
+      color: #ff4d75;
+    }
+
+    /* Cartas */
     .carta {
-      background-color: #ffffff; /* fondo blanco */
-      border-radius: 15px;       /* bordes redondeados */
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* sombra suave */
+      display: none;
+      background-color: #fff;
+      border-radius: 1rem;
       padding: 2rem 1.5rem;
-      margin: 1.5rem 0;
+      max-width: 600px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
+      color: #700028;
       font-size: 1.1rem;
       line-height: 1.6;
-      color: #700028;
-      transition: transform 0.3s;
-    }
-
-    .carta p {
-      margin-bottom: 1rem;
-    }
-
-    .carta:hover {
-      transform: scale(1.02);
+      text-align: left;
+      white-space: pre-wrap;
     }
 
     .boton-final {
-      margin: 1rem 0;
+      margin-top: 1.5rem;
       background-color: #ff6f91;
       border: none;
       padding: 1rem 2rem;
@@ -62,11 +89,40 @@
       background-color: #ff4d75;
       transform: scale(1.05);
     }
+
+    /* Fondo animado */
+    .fondo-corazones {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .pochacco {
+      position: absolute;
+      top: -100px;
+      animation: caer 10s linear forwards;
+      opacity: 0.8;
+    }
+
+    @keyframes caer {
+      0% { transform: translateY(0); opacity:1; }
+      100% { transform: translateY(100vh); opacity:0; }
+    }
+
+    @media (max-width:480px) {
+      body { padding: 6rem 1rem 2rem 1rem; }
+      .carta { padding: 1.5rem 1rem; font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- 🌸 NAVBAR -->
+  <!-- 🌸 Navbar -->
   <header class="navbar">
     <div class="navbar-logo">💌 Para Ti</div>
     <nav class="navbar-links">
@@ -75,38 +131,46 @@
     </nav>
   </header>
 
-  <!-- Fondo animado (opcional) -->
+  <!-- Fondo animado -->
   <div class="fondo-corazones" id="fondoCorazones"></div>
 
   <!-- 🌸 Cartas -->
-  <main>
+  <main style="margin-top:120px;">
 
     <!-- Carta 1 -->
     <button onclick="mostrarCarta(1)" class="boton-final">💌 Lee mi cartita 💌</button>
-    <div id="carta1" class="carta" style="display:none;">
-      <p>Mi amor:</p>
-      <p>
-        No hay palabras suficientes para decirte cuánto te amo.<br>
-        Gracias por estar, por cuidar de mí, por tus abrazos y por cada sonrisa que me regalas.<br>
-        Cada momento contigo ha sido un regalo y no puedo esperar por todos los que vendrán.
-      </p>
-      <p>Siempre tuyo,</p>
-      <p>❤️</p>
+    <div id="carta1" class="carta">
+      <p>Amor mío,</p>
+      <p>No existen palabras que describan lo especial que eres para mí.<br>
+      Mi corazón siempre late por ti, y cada abrazo tuyo me hace sentir en casa.<br>
+      Gracias por cada sonrisa, cada detalle y por ser como eres.<br>
+      Te adoro con todo mi ser. ❤️</p>
     </div>
 
-    <!-- Espacio para agregar más cartas -->
     <!-- Carta 2 -->
-    <!--
     <button onclick="mostrarCarta(2)" class="boton-final">💌 Segunda carta 💌</button>
-    <div id="carta2" class="carta" style="display:none;">
-      <p>Texto de la segunda carta...</p>
+    <div id="carta2" class="carta">
+      <p>Mi vida,</p>
+      <p>Sueño con un futuro lleno de aventuras y momentos hermosos contigo.<br>
+      Quiero compartir cada día, cada meta y cada alegría a tu lado.<br>
+      Te amo hoy, mañana y todos los días que estén por venir. 💖<br>
+      Eres mi fuerza y mi alegría constante.</p>
     </div>
-    -->
+
+    <!-- Carta 3 -->
+    <button onclick="mostrarCarta(3)" class="boton-final">💌 Tercera carta 💌</button>
+    <div id="carta3" class="carta">
+      <p>Cariño,</p>
+      <p>Eres la persona más maravillosa que tengo en mi vida.<br>
+      Cada mes contigo es un regalo, y me siento feliz de compartir estos recuerdos.<br>
+      Estoy orgullosa de ti y de todo lo que eres, y cada día que pasa te amo más. 💘<br>
+      Gracias por ser mi compañero y mi refugio.</p>
+    </div>
+
+    <!-- Botón volver -->
+    <button class="boton-final" onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
 
   </main>
-
-  <!-- Botón volver -->
-  <button class="boton-final" onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
 
   <!-- JS para mostrar cartas -->
   <script>
@@ -118,7 +182,7 @@
       window.scrollTo({ top: carta.offsetTop, behavior: 'smooth' });
     }
 
-    // Fondo animado Pochacco (opcional)
+    // Fondo animado Pochacco
     function crearPochacco() {
       const img = document.createElement('img');
       img.src = 'img/pochacco.webp';
