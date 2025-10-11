@@ -8,11 +8,7 @@
   <!-- CSS internos -->
   <style>
     /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Comic Sans MS', sans-serif;
@@ -38,23 +34,9 @@
       z-index: 1000;
     }
 
-    .navbar-logo {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #700028;
-    }
-
-    .navbar-links a {
-      color: #700028;
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-size: 1.1rem;
-      transition: color 0.3s;
-    }
-
-    .navbar-links a:hover {
-      color: #ff4d75;
-    }
+    .navbar-logo { font-size: 1.3rem; font-weight: bold; color: #700028; }
+    .navbar-links a { color: #700028; text-decoration: none; margin-left: 1.5rem; font-size: 1.1rem; transition: color 0.3s; }
+    .navbar-links a:hover { color: #ff4d75; }
 
     /* Cartas */
     .carta {
@@ -84,11 +66,7 @@
       cursor: pointer;
       transition: transform 0.2s, background-color 0.3s;
     }
-
-    .boton-final:hover {
-      background-color: #ff4d75;
-      transform: scale(1.05);
-    }
+    .boton-final:hover { background-color: #ff4d75; transform: scale(1.05); }
 
     /* Fondo animado */
     .fondo-corazones {
@@ -101,28 +79,20 @@
       overflow: hidden;
       z-index: -1;
     }
+    .pochacco { position: absolute; top: -100px; animation: caer 10s linear forwards; opacity: 0.8; }
+    @keyframes caer { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(100vh); opacity:0; } }
 
-    .pochacco {
-      position: absolute;
-      top: -100px;
-      animation: caer 10s linear forwards;
-      opacity: 0.8;
-    }
-
-    @keyframes caer {
-      0% { transform: translateY(0); opacity:1; }
-      100% { transform: translateY(100vh); opacity:0; }
-    }
-
+    /* Responsivo iPhone 11 */
     @media (max-width:480px) {
       body { padding: 6rem 1rem 2rem 1rem; }
       .carta { padding: 1.5rem 1rem; font-size: 1rem; }
+      .boton-final { width: 90%; font-size: 1rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🌸 Navbar -->
+  <!-- Navbar -->
   <header class="navbar">
     <div class="navbar-logo">💌 Para Ti</div>
     <nav class="navbar-links">
@@ -134,14 +104,13 @@
   <!-- Fondo animado -->
   <div class="fondo-corazones" id="fondoCorazones"></div>
 
-  <!-- 🌸 Cartas -->
+  <!-- Cartas -->
   <main style="margin-top:120px;">
 
-    <!-- Botón para mostrar todas las cartas -->
+    <!-- Botón mostrar todas las cartas -->
     <button onclick="mostrarTodasCartas()" class="boton-final">💌 Mostrar todas las cartas 💌</button>
 
     <!-- Carta 1 -->
-    <button onclick="mostrarCarta(1)" class="boton-final">💌 Lee mi cartita 💌</button>
     <div id="carta1" class="carta">
       <p>Amor mío,</p>
       <p>No existen palabras que describan lo especial que eres para mí.<br>
@@ -151,17 +120,15 @@
     </div>
 
     <!-- Carta 2 -->
-    <button onclick="mostrarCarta(2)" class="boton-final">💌 Segunda carta 💌</button>
     <div id="carta2" class="carta">
       <p>Mi vida,</p>
       <p>Sueño con un futuro lleno de aventuras y momentos hermosos contigo.<br>
       Quiero compartir cada día, cada meta y cada alegría a tu lado.<br>
-      Te amo hoy, mañana y todos los días que estén por venir. 💖<br>
+      Te amo hoy, mañana y siempre. 💖<br>
       Eres mi fuerza y mi alegría constante.</p>
     </div>
 
     <!-- Carta 3 -->
-    <button onclick="mostrarCarta(3)" class="boton-final">💌 Tercera carta 💌</button>
     <div id="carta3" class="carta">
       <p>Cariño,</p>
       <p>Eres la persona más maravillosa que tengo en mi vida.<br>
@@ -175,14 +142,12 @@
 
   </main>
 
-  <!-- JS para mostrar cartas -->
+  <!-- JS -->
   <script>
     function mostrarCarta(num) {
       const carta = document.getElementById('carta' + num);
       if (!carta) return;
-      // Alternar visibilidad
       carta.style.display = carta.style.display === 'none' ? 'block' : 'none';
-      window.scrollTo({ top: carta.offsetTop, behavior: 'smooth' });
     }
 
     function mostrarTodasCartas() {
@@ -190,9 +155,6 @@
         const carta = document.getElementById('carta' + i);
         if (carta) carta.style.display = 'block';
       }
-      // Scroll a la primera carta
-      const primera = document.getElementById('carta1');
-      if (primera) window.scrollTo({ top: primera.offsetTop, behavior: 'smooth' });
     }
 
     // Fondo animado Pochacco
