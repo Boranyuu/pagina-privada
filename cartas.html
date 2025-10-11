@@ -8,6 +8,61 @@
   <!-- CSS -->
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/styles.css"> <!-- Opcional: estilos generales -->
+
+  <!-- Estilos específicos para cartas -->
+  <style>
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
+      color: #700028;
+      text-align: center;
+      padding-top: 6rem; /* espacio para navbar fijo */
+    }
+
+    main {
+      margin: 0 auto;
+      max-width: 700px;
+      padding: 1rem;
+    }
+
+    .carta {
+      background-color: #ffffff; /* fondo blanco */
+      border-radius: 15px;       /* bordes redondeados */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* sombra suave */
+      padding: 2rem 1.5rem;
+      margin: 1.5rem 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #700028;
+      transition: transform 0.3s;
+    }
+
+    .carta p {
+      margin-bottom: 1rem;
+    }
+
+    .carta:hover {
+      transform: scale(1.02);
+    }
+
+    .boton-final {
+      margin: 1rem 0;
+      background-color: #ff6f91;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      color: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    .boton-final:hover {
+      background-color: #ff4d75;
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 <body>
 
@@ -24,7 +79,7 @@
   <div class="fondo-corazones" id="fondoCorazones"></div>
 
   <!-- 🌸 Cartas -->
-  <main style="margin-top: 120px;">
+  <main>
 
     <!-- Carta 1 -->
     <button onclick="mostrarCarta(1)" class="boton-final">💌 Lee mi cartita 💌</button>
@@ -45,14 +100,6 @@
     <button onclick="mostrarCarta(2)" class="boton-final">💌 Segunda carta 💌</button>
     <div id="carta2" class="carta" style="display:none;">
       <p>Texto de la segunda carta...</p>
-    </div>
-    -->
-
-    <!-- Carta 3 -->
-    <!--
-    <button onclick="mostrarCarta(3)" class="boton-final">💌 Tercera carta 💌</button>
-    <div id="carta3" class="carta" style="display:none;">
-      <p>Texto de la tercera carta...</p>
     </div>
     -->
 
