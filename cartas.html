@@ -7,7 +7,7 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/navbar.css">
-  <link rel="stylesheet" href="css/styles.css"> <!-- Estilos generales -->
+  <link rel="stylesheet" href="css/styles.css"> <!-- Opcional: estilos generales -->
 </head>
 <body>
 
@@ -20,22 +20,70 @@
     </nav>
   </header>
 
-  <!-- CONTENIDO CARTA -->
-  <main style="margin-top: 6rem; padding: 1rem;"> <!-- espacio para navbar fijo -->
-    <div id="carta">
-      <p style="margin-bottom: 1.2rem;">Mi amor:</p>
-      <p style="margin-bottom: 1.2rem;">
+  <!-- Fondo animado (opcional) -->
+  <div class="fondo-corazones" id="fondoCorazones"></div>
+
+  <!-- 🌸 Cartas -->
+  <main style="margin-top: 120px;">
+
+    <!-- Carta 1 -->
+    <button onclick="mostrarCarta(1)" class="boton-final">💌 Lee mi cartita 💌</button>
+    <div id="carta1" class="carta" style="display:none;">
+      <p>Mi amor:</p>
+      <p>
         No hay palabras suficientes para decirte cuánto te amo.<br>
         Gracias por estar, por cuidar de mí, por tus abrazos y por cada sonrisa que me regalas.<br>
         Cada momento contigo ha sido un regalo y no puedo esperar por todos los que vendrán.
       </p>
-      <p style="margin-bottom: 1.2rem;">Siempre tuyo,</p>
+      <p>Siempre tuyo,</p>
       <p>❤️</p>
     </div>
 
-    <!-- Botón para volver -->
-    <button class="boton-final" onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
+    <!-- Espacio para agregar más cartas -->
+    <!-- Carta 2 -->
+    <!--
+    <button onclick="mostrarCarta(2)" class="boton-final">💌 Segunda carta 💌</button>
+    <div id="carta2" class="carta" style="display:none;">
+      <p>Texto de la segunda carta...</p>
+    </div>
+    -->
+
+    <!-- Carta 3 -->
+    <!--
+    <button onclick="mostrarCarta(3)" class="boton-final">💌 Tercera carta 💌</button>
+    <div id="carta3" class="carta" style="display:none;">
+      <p>Texto de la tercera carta...</p>
+    </div>
+    -->
+
   </main>
+
+  <!-- Botón volver -->
+  <button class="boton-final" onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
+
+  <!-- JS para mostrar cartas -->
+  <script>
+    function mostrarCarta(num) {
+      const carta = document.getElementById('carta' + num);
+      if (!carta) return;
+      // Alternar visibilidad
+      carta.style.display = carta.style.display === 'none' ? 'block' : 'none';
+      window.scrollTo({ top: carta.offsetTop, behavior: 'smooth' });
+    }
+
+    // Fondo animado Pochacco (opcional)
+    function crearPochacco() {
+      const img = document.createElement('img');
+      img.src = 'img/pochacco.webp';
+      img.className = 'pochacco';
+      img.style.left = Math.random() * 100 + 'vw';
+      img.style.width = (Math.random() * 40 + 30) + 'px';
+      img.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      document.getElementById('fondoCorazones').appendChild(img);
+      setTimeout(() => img.remove(), 10000);
+    }
+    setInterval(crearPochacco, 700);
+  </script>
 
 </body>
 </html>

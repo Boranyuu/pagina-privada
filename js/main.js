@@ -25,11 +25,7 @@
     window.scrollTo({ top: fraseCaja.offsetTop, behavior: 'smooth' });
   }
 
-  function mostrarCarta() {
-    const carta = document.getElementById('carta');
-    carta.style.display = 'block';
-    window.scrollTo({ top: carta.offsetTop, behavior: 'smooth' });
-  }
+
 
   // Fondo animado con pochaccos que caen
   function crearPochacco() {
