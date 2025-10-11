@@ -4,489 +4,153 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Para ti ❤️</title>
-  <style>
-       body {
-      margin: 0;
-      padding: 2rem;
-      font-family: 'Comic Sans MS', sans-serif;
-      text-align: center;
-      background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
-      color: #700028;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-top: 1rem;
-    }
-    p {
-      font-size: 1.2rem;
-      margin: 1.5rem 0;
-    }
-    .img-container {
-      margin: 2rem 0;
-    }
-    img {
-      max-width: 90%;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(255, 100, 130, 0.5);
-      margin-bottom: 0.5rem;
-    }
-    .texto-imagen {
-      font-style: italic;
-      margin-bottom: 2rem;
-    }
-    .boton-final {
-      margin-top: 2rem;
-      background-color: #ff6f91;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      color: white;
-      border-radius: 1.5rem;
-      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
-      cursor: pointer;
-      transition: transform 0.2s, background-color 0.3s;
-    }
-    .boton-final:hover {
-      background-color: #ff4d75;
-      transform: scale(1.05);
-    }
-    .collage {
-      display: none;
-      margin-top: 3rem;
-    }
-    .grid-collage {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-    }
-    .grid-collage img {
-      width: 100%;
-      border-radius: 1rem;
-      box-shadow: 0 0 10px rgba(255, 100, 130, 0.4);
-    }
 
-    /* Fondo Pochacco flotante */
-    .fondo-corazones {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: -1;
-    }
-
-    .pochacco {
-      position: absolute;
-      top: -100px;
-      animation: caer 10s linear forwards;
-      opacity: 0.8;
-    }
-
-    @keyframes caer {
-      0% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
-
-    /* Carta */
-    #carta {
-      display: none;
-      margin-top: 2rem;
-      background-color: #fff0f5;
-      border-radius: 1rem;
-      padding: 2.5rem 3rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
-      color: #700028;
-      font-size: 1.2rem;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
-    #fraseAmor {
-      font-style: italic;
-      font-size: 1.3rem;
-      max-width: 600px;
-      margin: 1rem auto;
-    }
-
-    #fotoBorrosa { 
-      width: 100%; 
-      max-height: 300px; 
-      object-fit: cover; 
-      filter: blur(8px); 
-      border-radius: 8px; 
-      margin-top: 1rem;
-    }
-
-    .opcion-btn {
-      display: block;
-      margin: 0.5rem auto;
-      padding: 0.7rem 1rem;
-      width: 80%;
-      font-size: 1rem;
-      background-color: #ff6f91;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .opcion-btn:hover:not(:disabled) {
-      background-color: #ff476f;
-    }
-    #resultado {
-      font-size: 1.3rem;
-      margin: 1rem 0;
-      height: 2rem;
-    }
-    #reiniciarJuego {
-      display: none;
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
-      background-color: #008000;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-bottom: 2rem;
-    }
-  </style>
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
 
-  <!-- Fondo de Pochaccos flotantes -->
+  <!-- 🌸 NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-logo">💌 Para Ti</div>
+    <nav class="navbar-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#collage">Collage</a>
+      <a href="#juego">Juego</a>
+      <a href="#carta">Carta</a>
+    </nav>
+  </header>
+
+  <!-- Fondo animado -->
   <div class="fondo-corazones" id="fondoCorazones"></div>
 
-  <h1>Oña mi corazón 🥰</h1>
-  <p>Esta página es solo para ti. Gracias por estar en mi vida.</p>
-  <p>Es un poco distinto a lo que me pediste.</p>
-  <p>💘Pero me parecía mejor hacerte esto como un recorrido
-      por todo lo que hemos hecho juntos💘</p>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main id="inicio" style="margin-top: 120px;">
+    <h1>Oña mi corazón 🥰</h1>
+    <p>Esta página es solo para ti. Gracias por estar en mi vida.</p>
+    <p>Es un poco distinto a lo que me pediste.</p>
+    <p>💘Pero me parecía mejor hacerte esto como un recorrido
+        por todo lo que hemos hecho juntos💘</p>
 
-  <!-- IMÁGENES 1 al 14 -->
-  <div class="img-container">
-    <img src="img/IMAGEN1.jpg" alt="Imagen 1" />
-    <p class="texto-imagen">Nuestro primer momento especial, cuando fuimos juntos al cine 💖</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN2.jpeg" alt="Imagen 2" />
-    <p class="texto-imagen">Estar contigo es y será mi lugar seguro ✨</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN3.jpeg" alt="Imagen 3" />
-    <p class="texto-imagen">Nuestras primeras veces saliendo con mis papás ❤️</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IAMGEN4.jpeg" alt="Imagen 4" />
-    <p class="texto-imagen">Las fotos random 💘</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN5.jpeg" alt="Imagen 5" />
-    <p class="texto-imagen">Ir a tu casa era una rutina muy bonita 💕</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN6.jpeg" alt="Imagen 6" />
-    <p class="texto-imagen">Nuestra primera vez yendo a la playa, un día muy bonito ✨</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN7.jpeg" alt="Imagen 7" />
-    <p class="texto-imagen">Cuando fuimos al parque, te veías muy linda en esta foto 💗</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN8.jpeg" alt="Imagen 8" />
-    <p class="texto-imagen">Tener un hogar donde volver y tenerte fue lo mejor que pude haber hecho ❤️</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN9.jpeg" alt="Imagen 9" />
-    <p class="texto-imagen">Pasar tiempo contigo es algo que no cambiaría jamás 💖</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN10.jpeg" alt="Imagen 10" />
-    <p class="texto-imagen">Estar ahí para ti nunca fue una opción 💘</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN11.jpeg" alt="Imagen 11" />
-    <p class="texto-imagen">Eres mi lugar favorito ❤️</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN12.jpeg" alt="Imagen 12" />
-    <p class="texto-imagen">Guardo las fotos que me envías con mucho amor 💕</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN13.jpeg" alt="Imagen 13" />
-    <p class="texto-imagen">Te amo más de lo que imaginas 💖</p>
-  </div>
-
-  <div class="img-container">
-    <img src="img/IMAGEN14.jpeg" alt="Imagen 14" />
-    <p class="texto-imagen">Espero seguir haciendo recuerdos bonitos contigo para siempre ✨</p>
-  </div>
-
-  <p>Te amo con todo mi corazón ❤️</p>
-
-  <!-- Botón para mostrar collage -->
-  <button onclick="mostrarCollage()" class="boton-final">💌 Pulsame 💌</button>
-
-  <!-- COLLAGE OCULTO -->
-  <div id="collage" class="collage">
-    <h2>Un pequeño collage para ti 💞</h2>
-    <div class="grid-collage">
-      <img src="img/IMAGEN15.jpeg" alt="Imagen 15" />
-      <img src="img/IMAGEN16.jpeg" alt="Imagen 16" />
-      <img src="img/IMAGEN17.jpeg" alt="Imagen 17" />
-      <img src="img/IMAGEN18.jpeg" alt="Imagen 18" />
-      <img src="img/IMAGEN19.jpeg" alt="Imagen 19" />
-      <img src="img/IMAGEN20.jpeg" alt="Imagen 20" />
-      <img src="img/IMAGEN21.jpeg" alt="Imagen 21" />
-      <img src="img/IMAGEN22.jpeg" alt="Imagen 22" />
+    <!-- IMÁGENES -->
+    <div class="img-container">
+      <img src="img/IMAGEN1.jpg" alt="Imagen 1" />
+      <p class="texto-imagen">Nuestro primer momento especial, cuando fuimos juntos al cine 💖</p>
     </div>
-    <p style="margin-top: 1.5rem;">Gracias por todos los momentos que hemos vivido 💖</p>
-  </div>
 
-  <!-- Frases de amor -->
-  <!-- Botón para mostrar frase -->
-  <button onclick="mostrarFrase()" class="boton-final">💞 Dime algo lindo 💞</button>
+    <div class="img-container">
+      <img src="img/IMAGEN2.jpeg" alt="Imagen 2" />
+      <p class="texto-imagen">Estar contigo es y será mi lugar seguro ✨</p>
+    </div>
 
-  <!-- Caja de frases aleatorias justo debajo del botón -->
-  <div id="cajaFrase" style="display: none; background-color: #fff0f5; border-radius: 1rem; padding: 1rem 2rem; max-width: 600px; margin: 1rem auto 2rem auto; box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);">
-    <p id="fraseAmor" style="font-style: italic; font-size: 1.2rem; color: #700028; margin: 0;"></p>
-  </div>
+    <div class="img-container">
+      <img src="img/IMAGEN3.jpeg" alt="Imagen 3" />
+      <p class="texto-imagen">Nuestras primeras veces saliendo con mis papás ❤️</p>
+    </div>
 
-  <!-- Carta -->
-  <button onclick="mostrarCarta()" class="boton-final">💌 Lee mi cartita 💌</button>
-  <div id="carta" style="
-  display: none;
-  background-color: #fff0f5;
-  border-radius: 1rem;
-  padding: 2.5rem 3rem;
-  max-width: 600px;
-  margin: 2rem auto;
-  box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
-  color: #700028;
-  font-size: 1.2rem;
-  line-height: 1.6;
-  white-space: pre-wrap;
-">
-  <p style="margin-bottom: 1.2rem;">Mi amor:</p>
-  <p style="margin-bottom: 1.2rem;">
-    No hay palabras suficientes para decirte cuánto te amo.<br>
-    Gracias por estar, por cuidar de mí, por tus abrazos y por cada sonrisa que me regalas.<br>
-    Cada momento contigo ha sido un regalo y no puedo esperar por todos los que vendrán.
-  </p>
-  <p style="margin-bottom: 1.2rem;">Siempre tuyo,</p>
-  <p>❤️</p>
-</div>
+    <div class="img-container">
+      <img src="img/IAMGEN4.jpeg" alt="Imagen 4" />
+      <p class="texto-imagen">Las fotos random 💘</p>
+    </div>
 
+    <div class="img-container">
+      <img src="img/IMAGEN5.jpeg" alt="Imagen 5" />
+      <p class="texto-imagen">Ir a tu casa era una rutina muy bonita 💕</p>
+    </div>
 
-<!-- Minijuego Adivina el Recuerdo -->
-<h1>Adivina el recuerdo</h1>
+    <div class="img-container">
+      <img src="img/IMAGEN6.jpeg" alt="Imagen 6" />
+      <p class="texto-imagen">Nuestra primera vez yendo a la playa, un día muy bonito ✨</p>
+    </div>
 
-<!-- Imagen borrosa que se irá revelando -->
-<img id="fotoBorrosa" src="" alt="Foto borrosa del recuerdo" style="max-width: 100%; display: block; margin: 20px auto;" />
+    <div class="img-container">
+      <img src="img/IMAGEN7.jpeg" alt="Imagen 7" />
+      <p class="texto-imagen">Cuando fuimos al parque, te veías muy linda en esta foto 💗</p>
+    </div>
 
-<!-- Contenedor donde se crean los botones con las opciones -->
-<div id="opciones" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px;">
-  <!-- Botones generados por JavaScript -->
-</div>
+    <div class="img-container">
+      <img src="img/IMAGEN8.jpeg" alt="Imagen 8" />
+      <p class="texto-imagen">Tener un hogar donde volver y tenerte fue lo mejor que pude haber hecho ❤️</p>
+    </div>
 
-<!-- Texto para mostrar el resultado (correcto o no) -->
-<div id="resultado" style="text-align: center; font-weight: bold; font-size: 1.2rem; min-height: 1.5em; margin-bottom: 20px;"></div>
+    <div class="img-container">
+      <img src="img/IMAGEN9.jpeg" alt="Imagen 9" />
+      <p class="texto-imagen">Pasar tiempo contigo es algo que no cambiaría jamás 💖</p>
+    </div>
 
-<!-- Botón para pasar a la siguiente imagen -->
-<button id="reiniciarJuego" style="display: none; margin: 0 auto; padding: 10px 20px; font-size: 1rem; cursor: pointer;">
-  Siguiente imagen
-</button>
+    <div class="img-container">
+      <img src="img/IMAGEN10.jpeg" alt="Imagen 10" />
+      <p class="texto-imagen">Estar ahí para ti nunca fue una opción 💘</p>
+    </div>
 
+    <div class="img-container">
+      <img src="img/IMAGEN11.jpeg" alt="Imagen 11" />
+      <p class="texto-imagen">Eres mi lugar favorito ❤️</p>
+    </div>
 
+    <div class="img-container">
+      <img src="img/IMAGEN12.jpeg" alt="Imagen 12" />
+      <p class="texto-imagen">Guardo las fotos que me envías con mucho amor 💕</p>
+    </div>
 
-<!-- Scripts -->
-<script>
-  // Función para mostrar el collage y hacer scroll suave
-  function mostrarCollage() {
-    const collage = document.getElementById('collage');
-    collage.style.display = 'block';
-    window.scrollTo({ top: collage.offsetTop, behavior: 'smooth' });
-    alert('Gracias por compartir este momento conmigo 🥰');
-  }
+    <div class="img-container">
+      <img src="img/IMAGEN13.jpeg" alt="Imagen 13" />
+      <p class="texto-imagen">Te amo más de lo que imaginas 💖</p>
+    </div>
 
-  // Frases bonitas para mostrar en la carta
-  const frases = [
-    "Eres mi persona favorita.",
-    "Cada momento contigo es mi favorito.",
-    "Tú haces que todo valga la pena.",
-    "No necesito nada más si te tengo a ti.",
-    "Te amo más de lo que las palabras pueden decir.",
-    "Gracias por existir en mi vida."
-  ];
+    <div class="img-container">
+      <img src="img/IMAGEN14.jpeg" alt="Imagen 14" />
+      <p class="texto-imagen">Espero seguir haciendo recuerdos bonitos contigo para siempre ✨</p>
+    </div>
 
-  function mostrarFrase() {
-    const random = frases[Math.floor(Math.random() * frases.length)];
-    const fraseCaja = document.getElementById('cajaFrase');
-    document.getElementById('fraseAmor').textContent = random;
-    fraseCaja.style.display = 'block';
-    window.scrollTo({ top: fraseCaja.offsetTop, behavior: 'smooth' });
-  }
+    <p>Te amo con todo mi corazón ❤️</p>
 
-  function mostrarCarta() {
-    const carta = document.getElementById('carta');
-    carta.style.display = 'block';
-    window.scrollTo({ top: carta.offsetTop, behavior: 'smooth' });
-  }
+    <!-- COLLAGE -->
+    <button onclick="mostrarCollage()" class="boton-final">💌 Pulsame 💌</button>
+    <div id="collage" class="collage">
+      <h2>Un pequeño collage para ti 💞</h2>
+      <div class="grid-collage">
+        <img src="img/IMAGEN15.jpeg" alt="Imagen 15" />
+        <img src="img/IMAGEN16.jpeg" alt="Imagen 16" />
+        <img src="img/IMAGEN17.jpeg" alt="Imagen 17" />
+        <img src="img/IMAGEN18.jpeg" alt="Imagen 18" />
+        <img src="img/IMAGEN19.jpeg" alt="Imagen 19" />
+        <img src="img/IMAGEN20.jpeg" alt="Imagen 20" />
+        <img src="img/IMAGEN21.jpeg" alt="Imagen 21" />
+        <img src="img/IMAGEN22.jpeg" alt="Imagen 22" />
+      </div>
+      <p>Gracias por todos los momentos que hemos vivido 💖</p>
+    </div>
 
-  // Fondo animado con pochaccos que caen
-  function crearPochacco() {
-    const img = document.createElement('img');
-    img.src = 'img/pochacco.webp';
-    img.className = 'pochacco';
-    img.style.left = Math.random() * 100 + 'vw';
-    img.style.width = (Math.random() * 40 + 30) + 'px';
-    img.style.animationDuration = (Math.random() * 5 + 5) + 's';
-    document.getElementById('fondoCorazones').appendChild(img);
-    setTimeout(() => img.remove(), 10000);
-  }
-  setInterval(crearPochacco, 700);
+    <!-- FRASES -->
+    <button onclick="mostrarFrase()" class="boton-final">💞 Dime algo lindo 💞</button>
+    <div id="cajaFrase" class="caja-frase">
+      <p id="fraseAmor"></p>
+    </div>
 
-  // Esperar a que el DOM esté listo para iniciar el juego
-  document.addEventListener('DOMContentLoaded', () => {
+    <!-- CARTA -->
+    <button onclick="mostrarCarta()" class="boton-final">💌 Lee mi cartita 💌</button>
+    <div id="carta" class="carta">
+      <p>Mi amor:</p>
+      <p>
+        No hay palabras suficientes para decirte cuánto te amo.<br>
+        Gracias por estar, por cuidar de mí, por tus abrazos y por cada sonrisa que me regalas.<br>
+        Cada momento contigo ha sido un regalo y no puedo esperar por todos los que vendrán.
+      </p>
+      <p>Siempre tuyo,</p>
+      <p>❤️</p>
+    </div>
 
-    // Recuerdos con imagen y texto para el minijuego
-    const recuerdos = [
-      {
-        src: 'img/IAMGEN4.jpeg',  // Corregido el nombre aquí
-        texto: 'Nuestras primeras veces saliendo con mis papás 💘'
-      },
-      {
-        src: 'img/IMAGEN5.jpeg',
-        texto: 'Las fotos random 💕'
-      },
-      {
-        src: 'img/IMAGEN6.jpeg',
-        texto: 'Ir a tu casa era una rutina muy bonita ✨'
-      },
-      {
-        src: 'img/IMAGEN7.jpeg',
-        texto: 'Nuestra primera vez yendo a la playa, un día muy bonito  💗'
-      },
-      {
-        src: 'img/IMAGEN8.jpeg',
-        texto: 'Cuando fuimos al parque, te veías muy linda en esta foto ❤️'
-      },
-      {
-        src: 'img/IMAGEN9.jpeg',
-        texto: 'Tener un hogar donde volver y tenerte fue lo mejor que pude haber hecho 💖'
-      },
-    ];
+    <!-- MINIJUEGO -->
+    <h1 id="juego">Adivina el recuerdo</h1>
+    <img id="fotoBorrosa" alt="Foto borrosa del recuerdo" />
+    <div id="opciones"></div>
+    <div id="resultado"></div>
+    <button id="reiniciarJuego">Siguiente imagen</button>
+  </main>
 
-    const fotoBorrosa = document.getElementById('fotoBorrosa');
-    const opcionesDiv = document.getElementById('opciones');
-    const resultado = document.getElementById('resultado');
-    const reiniciarBtn = document.getElementById('reiniciarJuego');
-
-    let estadoJuego = {
-      actual: 0,
-      terminado: false
-    };
-
-    // Función para mezclar un array (Fisher-Yates)
-    function mezclarArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-
-    // Carga el estado del juego actual
-    function cargarJuego() {
-      estadoJuego.terminado = false;
-      resultado.textContent = '';
-      reiniciarBtn.style.display = 'none';
-      opcionesDiv.innerHTML = '';
-
-      const actualRecuerdo = recuerdos[estadoJuego.actual];
-      fotoBorrosa.src = actualRecuerdo.src;
-      fotoBorrosa.style.filter = 'blur(8px)';
-
-      // Construir opciones: texto correcto + 3 textos aleatorios distintos
-      let opcionesTexto = [actualRecuerdo.texto];
-
-      // Obtener otras frases excluyendo la actual
-      const otrasFrases = recuerdos
-        .filter((_, idx) => idx !== estadoJuego.actual)
-        .map(r => r.texto);
-
-      mezclarArray(otrasFrases);
-
-      opcionesTexto = opcionesTexto.concat(otrasFrases.slice(0, 3));
-
-      // Mezclar las opciones para que la correcta no esté siempre en la misma posición
-      mezclarArray(opcionesTexto);
-
-      // Crear botones para las opciones
-      opcionesTexto.forEach(texto => {
-        const btn = document.createElement('button');
-        btn.className = 'opcion-btn';
-        btn.textContent = texto;
-        btn.onclick = () => manejarClick(btn, actualRecuerdo.texto);
-        opcionesDiv.appendChild(btn);
-      });
-    }
-
-    // Maneja el click en una opción
-    function manejarClick(boton, textoCorrecto) {
-      if (estadoJuego.terminado) return;
-      estadoJuego.terminado = true;
-
-      const botones = document.querySelectorAll('.opcion-btn');
-      botones.forEach(btn => btn.disabled = true);
-
-      if (boton.textContent === textoCorrecto) {
-        resultado.textContent = '¡Correcto! ❤️';
-        resultado.style.color = '#008000';
-        fotoBorrosa.style.filter = 'none';
-      } else {
-        resultado.textContent = '¡Casi! Intenta otra vez.';
-        resultado.style.color = '#cc0000';
-      }
-
-      reiniciarBtn.style.display = 'inline-block';
-    }
-
-    // Al hacer click en reiniciar, avanzar al siguiente recuerdo
-    reiniciarBtn.addEventListener('click', () => {
-      estadoJuego.actual = (estadoJuego.actual + 1) % recuerdos.length;
-      cargarJuego();
-    });
-
-    // Cargar juego al inicio
-    cargarJuego();
-  });
-</script>
-
-
-
+  <!-- JS -->
+  <script src="js/main.js"></script>
 </body>
 </html>
