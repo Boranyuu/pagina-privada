@@ -137,6 +137,9 @@
   <!-- 🌸 Cartas -->
   <main style="margin-top:120px;">
 
+    <!-- Botón para mostrar todas las cartas -->
+    <button onclick="mostrarTodasCartas()" class="boton-final">💌 Mostrar todas las cartas 💌</button>
+
     <!-- Carta 1 -->
     <button onclick="mostrarCarta(1)" class="boton-final">💌 Lee mi cartita 💌</button>
     <div id="carta1" class="carta">
@@ -180,6 +183,16 @@
       // Alternar visibilidad
       carta.style.display = carta.style.display === 'none' ? 'block' : 'none';
       window.scrollTo({ top: carta.offsetTop, behavior: 'smooth' });
+    }
+
+    function mostrarTodasCartas() {
+      for (let i = 1; i <= 3; i++) {
+        const carta = document.getElementById('carta' + i);
+        if (carta) carta.style.display = 'block';
+      }
+      // Scroll a la primera carta
+      const primera = document.getElementById('carta1');
+      if (primera) window.scrollTo({ top: primera.offsetTop, behavior: 'smooth' });
     }
 
     // Fondo animado Pochacco
