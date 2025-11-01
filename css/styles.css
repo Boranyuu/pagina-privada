@@ -173,7 +173,7 @@ img {
   box-shadow: 0 4px 10px rgba(255, 100, 130, 0.2);
   color: #700028;
   font-size: 1.1rem;
-  line-height: 1.6;
+  line-height: 20px;
   white-space: pre-wrap;
 }
 
