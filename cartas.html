@@ -99,6 +99,7 @@
     <nav class="navbar-links">
       <a href="index.html">Inicio</a>
       <a href="cartas.html">Cartas</a>
+      <a href="horario.html">Horario</a>
     </nav>
   </header>
 
@@ -150,7 +151,43 @@
       <p>Me gusta pasar mi vida contigo eres la mejor y te amo mucho potito.❤️</p>
     </div>
 
+    <button onclick="mostrarCarta(5)" class="boton-final">💌 Lee mi cartita 5 💌</button>
+    <div id="carta5" class="carta">
+      <p>Yo se que capaz me tarde con la pagina </p>
+      <p>Simplemente entre como en una costumbre de dejarlas pasar</p>
+      <p>Y me doy cuenta hoy que no estaba bien ya que es algo y a ti te gustan</p>
+      <p>A mi no me cuestan nada hacerlas para ti y te pido perdon por eso.</p>
+    </div>
     <!-- Botón volver -->
+
+    <p></p>
+
+    <button onclick="mostrarCarta(6)" class="boton-final">💌 Lee mi cartita 6 💌</button>
+    <div id="carta6" class="carta">
+      <p>Esta carta la escribo para decir lo mucho que te amo </p>
+      <p>Tu no me creeras pero tu eres mi persona favorita del mundo</p>
+      <p>Estoy agradecido con la vida de habernos encotrado indepedientemente de los malos ratos</p>
+      <p>Yo siempre sabre que no me equivoque en elegirte a ti como mi compañera de vida.❤️</p>
+    </div>
+
+    <button onclick="mostrarCarta(7)" class="boton-final">💌 Lee mi cartita 7 💌</button>
+    <div id="carta7" class="carta">
+      <p>Ya sobran las palabras para decirte lo mucho te amo </p>
+      <p>Siempre he tratado de dejartelo en claro y espero que con esto lo entiendas</p>
+      <p>Yo siempre te amare y espero algun dia que tengas la suficiente confianza en mi para poder ser felices al maximo</p>
+      <p>Yo siempre estare orgulloso de ti y espero poder compartir</p>
+      <p>Todos los momentos contigo sean buenos o malos yo quiero estar para siempre al lado tuyo.❤️</p>
+    </div>
+
+    <button onclick="mostrarCarta(8)" class="boton-final">💌 Lee mi cartita 8 💌</button>
+    <div id="carta8" class="carta">
+      <p>Esta ultima carta es un recordatorio de vida </p>
+      <p>Aquellos momentos que quiero trasmitir las peleas que me han llevado a ser mejor persona</p>
+      <p>Gracias a ti soy una persona mas considera me haces ver mis propios de mis errores </p>
+      <p>Eres como un angel para mi aparte de ser la mujer mas hermosa del mundo</p>
+      <p>Mi giua para se mejor persona y aspiro a convertirme en algo que tu estes orgullosa y amada.❤️</p>
+    </div>
+
     <button class="boton-final" onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
 
   </main>
@@ -164,7 +201,7 @@
     }
 
     function mostrarTodasCartas() {
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 9; i++) {
         const carta = document.getElementById('carta' + i);
         if (carta) carta.style.display = 'block';
       }

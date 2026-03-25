@@ -1,0 +1,105 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartas 💌</title>
+
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
+      color: #700028;
+      padding: 6rem 1rem 2rem 1rem; 
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb6c1;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+    }
+    .navbar-logo { font-size: 1.3rem; font-weight: bold; color: #700028; }
+    .navbar-links a { color: #700028; text-decoration: none; margin-left: 1.5rem; font-size: 1.1rem; transition: color 0.3s; }
+    .navbar-links a:hover { color: #ff4d75; }
+
+    /* Cartas */
+    .carta {
+      display: none;
+      background-color: #fff;
+      border-radius: 1rem;
+      padding: 2rem 1.5rem;
+      max-width: 600px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 15px rgba(255, 100, 130, 0.25);
+      color: #700028;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      text-align: center;  /* Centrado de texto */
+      white-space: pre-wrap;
+    }
+    .carta p {
+      margin-bottom: 1rem; /* separación entre párrafos */
+    }
+
+    .boton-final {
+      margin-top: 1.5rem;
+      background-color: #ff6f91;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      color: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+    .boton-final:hover { background-color: #ff4d75; transform: scale(1.05); }
+
+    /* Fondo animado */
+    .fondo-corazones {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .pochacco { position: absolute; top: -100px; animation: caer 10s linear forwards; opacity: 0.8; }
+    @keyframes caer { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(100vh); opacity:0; } }
+
+    /* Responsivo iPhone 11 */
+    @media (max-width:480px) {
+      body { padding: 6rem 1rem 2rem 1rem; }
+      .carta { padding: 1.5rem 1rem; font-size: 1rem; }
+      .boton-final { width: 90%; font-size: 1rem; }
+    }
+  </style>
+</head>
+
+
+<body>
+    <header class="navbar">
+    <div class="navbar-logo">💌 Para Ti</div>
+    <nav class="navbar-links">
+      <a href="index.html">Inicio</a>
+      <a href="cartas.html">Cartas</a>
+      <a href="horario.html">Horario</a>
+    </nav>
+  </header>
+
+
+</body>
