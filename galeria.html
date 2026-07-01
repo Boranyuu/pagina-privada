@@ -271,6 +271,7 @@
       if (files.length === 0) return;
 
       let pendientes = files.length;
+      let errores = 0;
       files.forEach(file => {
         const reader = new FileReader();
         reader.onload = function(ev) {
@@ -292,7 +293,20 @@
               fotos.push({ tipo: 'base64', src: ev.target.result });
             }
             pendientes--;
-            if (pendientes === 0) { guardarFotos(); renderizarFotos(); }
+            if (pendientes === 0) {
+              guardarFotos().then(renderizarFotos).catch(function() {
+                renderizarFotos();
+                alert('💔 No se pudieron guardar las fotos. Revisá el almacenamiento del navegador.');
+              });
+            }
+          };
+          img.onerror = function() {
+            pendientes--;
+            errores++;
+            if (pendientes === 0) {
+              if (errores > 0) alert('⚠️ ' + errores + ' archivo(s) no se pudieron procesar (no son imágenes válidas).');
+              renderizarFotos();
+            }
           };
           img.src = ev.target.result;
         };
