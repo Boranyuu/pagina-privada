@@ -293,6 +293,7 @@
     let cartas = { 'para-mi': [], 'otras': [] };
     let seccionActual = 'para-mi';
     let decoSeleccionada = 'mixto';
+    let usarServidor = false;
 
     const CARTAS_INICIALES = {
       'para-mi': [],
@@ -316,7 +317,18 @@
       document.querySelectorAll('.tab-btn')[seccion === 'para-mi' ? 0 : 1].classList.add('activo');
     }
 
-    function cargarCartas() {
+    async function cargarCartas() {
+      try {
+        const res = await fetch('/api/cartas');
+        if (res.ok) {
+          const data = await res.json();
+          cartas['para-mi'] = data['para-mi'] || [];
+          cartas['otras'] = data['otras'] || [];
+          usarServidor = true;
+          return;
+        }
+      } catch(e) {}
+      usarServidor = false;
       const version = localStorage.getItem('cartas-version');
       if (version !== '3') {
         localStorage.removeItem('cartas-amor');
@@ -336,6 +348,14 @@
     }
 
     function guardarCartas() {
+      if (usarServidor) {
+        fetch('/api/cartas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cartas)
+        }).catch(function() {});
+        return;
+      }
       localStorage.setItem('cartas-amor', JSON.stringify(cartas));
     }
 
@@ -446,8 +466,7 @@
       if (e.target === this) cerrarModal();
     });
 
-    cargarCartas();
-    renderizarCartas();
+    (async function() { await cargarCartas(); renderizarCartas(); })();
   </script>
 </body>
 </html>
