@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería 📸</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
+      color: #700028;
+      padding: 6rem 1rem 2rem;
+      min-height: 100vh;
+    }
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background-color: #ffb6c1;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; z-index: 1000;
+      font-family: 'Comic Sans MS', sans-serif; box-sizing: border-box;
+    }
+    .navbar-logo { font-size: 1.3rem; font-weight: bold; color: #700028; }
+    .navbar-links a { color: #700028; text-decoration: none; margin-left: 1.5rem; font-size: 1.1rem; transition: color 0.3s; }
+    .navbar-links a:hover { color: #ff4d75; }
+
+    .fondo-corazones { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: -1; }
+    .pochacco { position: absolute; top: -100px; animation: caer 10s linear forwards; opacity: 0.8; }
+    @keyframes caer { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(100vh); opacity:0; } }
+
+    .contenido { max-width: 900px; margin: 120px auto 0; }
+
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .sub { font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.8; }
+
+    .grid-fotos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .foto-item {
+      position: relative; border-radius: 1rem; overflow: hidden;
+      box-shadow: 0 4px 15px rgba(255,100,130,0.2);
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .foto-item:hover { transform: scale(1.03); }
+    .foto-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+    }
+    .foto-item .eliminar-foto {
+      position: absolute; top: 5px; right: 5px;
+      background: rgba(255,255,255,0.8); border: none;
+      width: 28px; height: 28px; border-radius: 50%;
+      font-size: 0.9rem; cursor: pointer; color: #d46a84;
+      opacity: 0; transition: opacity 0.3s; line-height: 28px;
+    }
+    .foto-item:hover .eliminar-foto { opacity: 1; }
+
+    .btn-agregar {
+      margin: 1rem 0; background: none; border: 2px dashed #ff6f91;
+      padding: 1rem 2rem; font-size: 1.1rem; color: #ff6f91;
+      border-radius: 1.5rem; cursor: pointer; transition: all 0.3s; font-family: inherit; font-weight: bold;
+    }
+    .btn-agregar:hover { background-color: #ff6f91; color: white; transform: scale(1.03); }
+
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center;
+      padding: 1rem;
+    }
+    .modal-overlay.visible { display: flex; }
+    .modal {
+      background: #fff; border-radius: 1.5rem; padding: 2rem;
+      max-width: 90vw; max-height: 90vh; overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative;
+    }
+    .modal img { max-width: 100%; max-height: 75vh; border-radius: 0.5rem; display: block; }
+    .modal-cerrar {
+      position: absolute; top: -15px; right: -15px;
+      background: white; border: none; width: 40px; height: 40px;
+      border-radius: 50%; font-size: 1.3rem; cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2); color: #d46a84;
+      transition: transform 0.2s;
+    }
+    .modal-cerrar:hover { transform: scale(1.1); }
+
+    input[type="file"] { display: none; }
+
+    .galeria-vacia {
+      padding: 3rem 1rem; font-size: 1.2rem; color: #b0566e;
+      font-style: italic; background: rgba(255,255,255,0.5);
+      border-radius: 1rem; margin-bottom: 1rem;
+    }
+
+    @media (max-width:480px) {
+      .navbar { flex-direction: column; align-items: flex-start; padding: 0.8rem 1rem; }
+      .navbar-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+      .navbar-links a { font-size: 0.95rem; margin-left: 0; }
+      h1 { font-size: 1.5rem; }
+      .grid-fotos { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar-logo">💌 Para Ti</div>
+    <nav class="navbar-links">
+      <a href="index.html">Inicio</a>
+      <a href="cartas.html">Cartas</a>
+      <a href="horario.html">Horario</a>
+      <a href="galeria.html">Galería</a>
+      <a href="sorpresa.html">Sorpresa</a>
+    </nav>
+  </header>
+
+  <div class="fondo-corazones" id="fondoCorazones"></div>
+
+  <main class="contenido">
+    <h1>Nuestros recuerdos 📸</h1>
+    <p class="sub">Cada foto guarda un momento especial de nosotros 💕</p>
+
+    <div class="grid-fotos" id="gridFotos"></div>
+
+    <label class="btn-agregar" for="input-foto">📷 Añadir nueva foto</label>
+    <input type="file" id="input-foto" accept="image/*" multiple>
+  </main>
+
+  <div class="modal-overlay" id="modalVer" onclick="cerrarModal()">
+    <div class="modal">
+      <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
+      <img id="modalImg" src="" alt="Foto">
+    </div>
+  </div>
+
+  <script>
+    const fotosExistentes = [
+      'IMAGEN1.jpg','IMAGEN2.jpeg','IMAGEN3.jpeg','IMAGEN4.jpeg',
+      'IMAGEN5.jpeg','IMAGEN6.jpeg','IMAGEN7.jpeg','IMAGEN8.jpeg',
+      'IMAGEN9.jpeg','IMAGEN10.jpeg','IMAGEN11.jpeg','IMAGEN12.jpeg',
+      'IMAGEN13.jpeg','IMAGEN14.jpeg','IMAGEN15.jpeg','IMAGEN16.jpeg',
+      'IMAGEN17.jpeg','IMAGEN18.jpeg','IMAGEN19.jpeg','IMAGEN20.jpeg',
+      'IMAGEN21.jpeg','IMAGEN22.jpeg'
+    ];
+
+    let fotos = [];
+
+    function cargarFotos() {
+      const guardadas = localStorage.getItem('galeria-fotos');
+      if (guardadas) {
+        try {
+          fotos = JSON.parse(guardadas);
+          return;
+        } catch(e) {}
+      }
+      fotos = fotosExistentes.map(f => ({ tipo: 'archivo', src: 'img/' + f }));
+      guardarFotos();
+    }
+
+    function guardarFotos() {
+      localStorage.setItem('galeria-fotos', JSON.stringify(fotos));
+    }
+
+    function renderizarFotos() {
+      const grid = document.getElementById('gridFotos');
+      grid.innerHTML = '';
+      if (fotos.length === 0) {
+        grid.innerHTML = '<div class="galeria-vacia">📸 No hay fotos aún. ¡Añade tus recuerdos!</div>';
+        return;
+      }
+      fotos.forEach((f, i) => {
+        const div = document.createElement('div');
+        div.className = 'foto-item';
+        div.innerHTML = '<img src="' + f.src + '" alt="Foto ' + (i+1) + '" onclick="verFoto(\'' + f.src.replace(/'/g, "\\'") + '\')">' +
+          '<button class="eliminar-foto" onclick="eliminarFoto(' + i + ')" title="Eliminar">✕</button>';
+        grid.appendChild(div);
+      });
+    }
+
+    function verFoto(src) {
+      document.getElementById('modalImg').src = src;
+      document.getElementById('modalVer').classList.add('visible');
+    }
+
+    function cerrarModal() {
+      document.getElementById('modalVer').classList.remove('visible');
+    }
+
+    function eliminarFoto(i) {
+      if (!confirm('¿Eliminar esta foto de la galería? 💔')) return;
+      fotos.splice(i, 1);
+      guardarFotos();
+      renderizarFotos();
+    }
+
+    document.getElementById('input-foto').addEventListener('change', function(e) {
+      const files = Array.from(e.target.files);
+      if (files.length === 0) return;
+
+      let pendientes = files.length;
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          fotos.push({ tipo: 'base64', src: ev.target.result });
+          pendientes--;
+          if (pendientes === 0) {
+            guardarFotos();
+            renderizarFotos();
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+
+      this.value = '';
+    });
+
+    function crearPochacco() {
+      const img = document.createElement('img');
+      img.src = 'img/pochacco.webp';
+      img.className = 'pochacco';
+      img.style.left = Math.random() * 100 + 'vw';
+      img.style.width = (Math.random() * 40 + 30) + 'px';
+      img.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      document.getElementById('fondoCorazones').appendChild(img);
+      setTimeout(() => img.remove(), 10000);
+    }
+    setInterval(crearPochacco, 700);
+
+    document.getElementById('modalVer').addEventListener('click', function(e) {
+      if (e.target === this) cerrarModal();
+    });
+
+    cargarFotos();
+    renderizarFotos();
+  </script>
+</body>
+</html>

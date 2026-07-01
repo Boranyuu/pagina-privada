@@ -46,7 +46,7 @@
     // Recuerdos con imagen y texto para el minijuego
     const recuerdos = [
       {
-        src: 'img/IAMGEN4.jpeg',  // Corregido el nombre aquí
+        src: 'img/IMAGEN4.jpeg',  // Corregido el nombre aquí
         texto: 'Nuestras primeras veces saliendo con mis papás 💘'
       },
       {

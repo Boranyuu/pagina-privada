@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorpresa 💕</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
+      color: #700028;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background-color: #ffb6c1;
+      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; z-index: 1000;
+      font-family: 'Comic Sans MS', sans-serif; box-sizing: border-box;
+    }
+    .navbar-logo { font-size: 1.3rem; font-weight: bold; color: #700028; }
+    .navbar-links a { color: #700028; text-decoration: none; margin-left: 1.5rem; font-size: 1.1rem; transition: color 0.3s; }
+    .navbar-links a:hover { color: #ff4d75; }
+
+    .contenedor {
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; padding: 6rem 1rem 2rem;
+      position: relative;
+    }
+
+    #pregunta, #respuesta {
+      max-width: 550px; width: 100%;
+      background: rgba(255,255,255,0.85);
+      border-radius: 2rem; padding: 3rem 2rem;
+      box-shadow: 0 10px 40px rgba(255,100,130,0.2);
+      position: relative; z-index: 2;
+      backdrop-filter: blur(10px);
+      border: 3px solid rgba(255,182,193,0.5);
+      transition: all 0.5s;
+    }
+
+    h1 { font-size: 2rem; margin-bottom: 1rem; line-height: 1.4; }
+    .sub { font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.8; }
+
+    .botones {
+      display: flex; gap: 1.5rem; justify-content: center; align-items: center;
+      flex-wrap: wrap; min-height: 100px;
+    }
+
+    .btn-si {
+      background: linear-gradient(135deg, #ff6f91, #ff4d75); color: white;
+      border: none; padding: 1rem 2.5rem; font-size: 1.3rem;
+      border-radius: 2rem; cursor: pointer; font-family: inherit; font-weight: bold;
+      box-shadow: 0 6px 20px rgba(255,77,117,0.4);
+      transition: all 0.3s; position: relative; z-index: 5;
+    }
+    .btn-si:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(255,77,117,0.5); }
+
+    .btn-no {
+      background: linear-gradient(135deg, #d4a0b0, #c08090); color: white;
+      border: none; padding: 0.8rem 2rem; font-size: 1.1rem;
+      border-radius: 2rem; cursor: pointer; font-family: inherit; font-weight: bold;
+      box-shadow: 0 4px 15px rgba(200,128,144,0.3);
+      transition: all 0.3s ease; position: relative; z-index: 5;
+      min-width: 160px; -webkit-tap-highlight-color: transparent;
+    }
+
+    #respuesta { display: none; }
+    #respuesta.mostrar { display: block; animation: aparecer 0.6s ease; }
+    #pregunta.oculta { display: none; }
+
+    @keyframes aparecer {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .fotos-presion {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;
+      margin-bottom: 1rem; min-height: 0;
+    }
+    .fotos-presion img {
+      width: 220px; height: 220px; border-radius: 1rem; object-fit: cover;
+      box-shadow: 0 4px 20px rgba(255,100,130,0.3);
+      animation: popIn 0.4s ease; border: 3px solid white;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+      70% { transform: scale(1.1) rotate(3deg); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .gracias-titulo { font-size: 2.2rem; color: #ff4d75; margin-bottom: 0.5rem; }
+    .gracias-msg { font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem; }
+    .corazon-grande { font-size: 4rem; animation: latir 1s ease-in-out infinite; display: block; margin-bottom: 1rem; }
+    @keyframes latir {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    .corazon-fondo {
+      position: fixed; pointer-events: none; z-index: 0;
+      font-size: 1.5rem; animation: flotar 4s ease-in infinite;
+    }
+    @keyframes flotar {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .hearts-lluvia {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 1; overflow: hidden;
+    }
+    .hearts-lluvia span {
+      position: absolute; font-size: 1.5rem; animation: caerCorazon linear infinite;
+      opacity: 0.6;
+    }
+    @keyframes caerCorazon {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .fondo-corazones { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
+    .pochacco { position: absolute; top: -100px; animation: caer 10s linear forwards; opacity: 0.8; }
+    @keyframes caer { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(100vh); opacity:0; } }
+
+    @media (max-width:480px) {
+      .navbar { flex-direction: column; align-items: flex-start; padding: 0.8rem 1rem; }
+      .navbar-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+      .navbar-links a { font-size: 0.95rem; margin-left: 0; }
+      h1 { font-size: 1.5rem; }
+      #pregunta, #respuesta { padding: 2rem 1.2rem; }
+      .btn-si, .btn-no { font-size: 1rem; padding: 0.8rem 1.5rem; min-width: 140px; }
+      .botones { gap: 1rem; flex-direction: column; align-items: center; }
+      .gracias-msg { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar-logo">💌 Para Ti</div>
+    <nav class="navbar-links">
+      <a href="index.html">Inicio</a>
+      <a href="cartas.html">Cartas</a>
+      <a href="horario.html">Horario</a>
+      <a href="galeria.html">Galería</a>
+      <a href="sorpresa.html">Sorpresa</a>
+    </nav>
+  </header>
+
+  <div class="fondo-corazones" id="fondoCorazones"></div>
+  <div class="hearts-lluvia" id="heartsLluvia"></div>
+
+  <div class="contenedor">
+
+    <div id="pregunta">
+      <div id="fotosPresion" class="fotos-presion"></div>
+      <h1>💕 ¿Quieres seguir conmigo? 💕</h1>
+      <p class="sub">Prometo seguir haciendo que cada día a tu lado sea especial...</p>
+      <div class="botones" id="botones">
+            <button class="btn-si" id="btnSi" onmouseenter="hacerMasGrande()" ontouchstart="hacerMasGrande()" onclick="responderSi()">¡Sí, siempre! 💖</button>
+        <button class="btn-no" id="btnNo" onclick="responderNo()">No 💔</button>
+      </div>
+    </div>
+
+    <div id="respuesta">
+      <span class="corazon-grande">💖</span>
+      <h1 class="gracias-titulo">¡Gracias por no terminarme!</h1>
+      <p class="gracias-msg">
+        Eres la persona más especial de mi vida 💕<br>
+        prometo seguir esforzándome cada día para hacerte feliz<br>
+        y demostrarte lo mucho que te amo.<br><br>
+        ¡Te amo con todo mi corazón! ❤️
+      </p>
+      <button class="btn-si" onclick="volverInicio()">💌 Volver al inicio</button>
+    </div>
+
+  </div>
+
+  <script>
+    let noClicks = 0;
+    let fotosDisponibles = [];
+    let fotosUsadas = [];
+
+    function obtenerFotos() {
+      const guardadas = localStorage.getItem('galeria-fotos');
+      if (guardadas) {
+        try {
+          const parsed = JSON.parse(guardadas);
+          fotosDisponibles = parsed.map(f => f.src);
+          return;
+        } catch(e) {}
+      }
+      fotosDisponibles = [
+        'img/IMAGEN1.jpg','img/IMAGEN2.jpeg','img/IMAGEN3.jpeg','img/IMAGEN4.jpeg',
+        'img/IMAGEN5.jpeg','img/IMAGEN6.jpeg','img/IMAGEN7.jpeg','img/IMAGEN8.jpeg',
+        'img/IMAGEN9.jpeg','img/IMAGEN10.jpeg','img/IMAGEN11.jpeg','img/IMAGEN12.jpeg',
+        'img/IMAGEN13.jpeg','img/IMAGEN14.jpeg','img/IMAGEN15.jpeg','img/IMAGEN16.jpeg',
+        'img/IMAGEN17.jpeg','img/IMAGEN18.jpeg','img/IMAGEN19.jpeg','img/IMAGEN20.jpeg',
+        'img/IMAGEN21.jpeg','img/IMAGEN22.jpeg'
+      ];
+    }
+
+    function fotoRandom() {
+      const disponibles = fotosDisponibles.filter(f => !fotosUsadas.includes(f));
+      if (disponibles.length === 0) fotosUsadas = [];
+      const pool = disponibles.length > 0 ? disponibles : fotosDisponibles;
+      const elegida = pool[Math.floor(Math.random() * pool.length)];
+      fotosUsadas.push(elegida);
+      return elegida;
+    }
+
+    function hacerMasGrande() {
+      const btnSi = document.getElementById('btnSi');
+      let escala = parseFloat(btnSi.dataset.escala || '1');
+      escala += 0.3;
+      btnSi.dataset.escala = escala;
+      btnSi.style.transform = 'scale(' + escala + ')';
+    }
+
+    function responderNo() {
+      noClicks++;
+      const btnNo = document.getElementById('btnNo');
+      const btnSi = document.getElementById('btnSi');
+
+      const contenedor = document.getElementById('fotosPresion');
+      contenedor.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = fotoRandom();
+      contenedor.appendChild(img);
+
+      if (noClicks >= 4) {
+        btnNo.style.display = 'none';
+        return;
+      }
+      let escalaNo = 1 - (noClicks * 0.2);
+      btnNo.style.transform = 'scale(' + escalaNo + ')';
+      btnNo.style.opacity = 1 - (noClicks * 0.2);
+
+      let escalaSi = parseFloat(btnSi.dataset.escala || '1');
+      escalaSi += 0.25;
+      btnSi.dataset.escala = escalaSi;
+      btnSi.style.transform = 'scale(' + escalaSi + ')';
+    }
+
+    function responderSi() {
+      document.getElementById('pregunta').classList.add('oculta');
+      const r = document.getElementById('respuesta');
+      r.classList.add('mostrar');
+      iniciarLluviaCorazones();
+    }
+
+    function volverInicio() {
+      window.location.href = 'index.html';
+    }
+
+    function iniciarLluviaCorazones() {
+      const container = document.getElementById('heartsLluvia');
+      const emojis = ['❤️', '💕', '💖', '💗', '💝', '🌸', '🌷', '✨'];
+      for (let i = 0; i < 40; i++) {
+        const span = document.createElement('span');
+        span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        span.style.left = Math.random() * 100 + '%';
+        span.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+        span.style.animationDuration = (Math.random() * 4 + 3) + 's';
+        span.style.animationDelay = (Math.random() * 5) + 's';
+        span.style.opacity = Math.random() * 0.5 + 0.3;
+        container.appendChild(span);
+      }
+    }
+
+    function crearPochacco() {
+      const img = document.createElement('img');
+      img.src = 'img/pochacco.webp';
+      img.className = 'pochacco';
+      img.style.left = Math.random() * 100 + 'vw';
+      img.style.width = (Math.random() * 40 + 30) + 'px';
+      img.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      document.getElementById('fondoCorazones').appendChild(img);
+      setTimeout(() => img.remove(), 10000);
+    }
+    setInterval(crearPochacco, 700);
+    obtenerFotos();
+  </script>
+</body>
+</html>

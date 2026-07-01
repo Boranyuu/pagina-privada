@@ -4,210 +4,435 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cartas 💌</title>
-
   <style>
-    /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Comic Sans MS', sans-serif;
       text-align: center;
       background: linear-gradient(to bottom right, #ffe0e9, #ffccd5);
       color: #700028;
-      padding: 6rem 1rem 2rem 1rem; 
+      padding: 6rem 1rem 2rem 1rem;
       overflow-x: hidden;
+      min-height: 100vh;
     }
-
-    /* Navbar */
     .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
+      position: fixed; top: 0; left: 0; width: 100%;
       background-color: #ffb6c1;
       box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      z-index: 1000;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; z-index: 1000;
+      font-family: 'Comic Sans MS', sans-serif; box-sizing: border-box;
     }
     .navbar-logo { font-size: 1.3rem; font-weight: bold; color: #700028; }
     .navbar-links a { color: #700028; text-decoration: none; margin-left: 1.5rem; font-size: 1.1rem; transition: color 0.3s; }
     .navbar-links a:hover { color: #ff4d75; }
 
-    /* Cartas */
-    .carta {
-      display: none;
-      background-color: #fff;
-      border-radius: 1rem;
-      padding: 2rem 1.5rem;
-      max-width: 600px;
-      margin: 2rem auto;
-      box-shadow: 0 4px 15px rgba(255, 100, 130, 0.25);
-      color: #700028;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      text-align: center;  /* Centrado de texto */
-      white-space: pre-wrap;
-    }
-    .carta p {
-      margin-bottom: 1rem; /* separación entre párrafos */
-    }
-
-    .boton-final {
-      margin-top: 1.5rem;
-      background-color: #ff6f91;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      color: white;
-      border-radius: 1.5rem;
-      box-shadow: 0 4px 10px rgba(255, 100, 130, 0.4);
-      cursor: pointer;
-      transition: transform 0.2s, background-color 0.3s;
-    }
-    .boton-final:hover { background-color: #ff4d75; transform: scale(1.05); }
-
-    /* Fondo animado */
-    .fondo-corazones {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: -1;
-    }
+    .fondo-corazones { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: -1; }
     .pochacco { position: absolute; top: -100px; animation: caer 10s linear forwards; opacity: 0.8; }
     @keyframes caer { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(100vh); opacity:0; } }
 
-    /* Responsivo iPhone 11 */
+    .contenido { max-width: 700px; margin: 120px auto 0; }
+
+    .tabs {
+      display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 0.8rem 1.8rem; font-size: 1.1rem; border: none; border-radius: 2rem;
+      background-color: #ffb6c1; color: #700028; cursor: pointer;
+      transition: all 0.3s; font-family: inherit; font-weight: bold;
+      box-shadow: 0 2px 8px rgba(255, 100, 130, 0.2);
+    }
+    .tab-btn:hover { background-color: #ff8fa3; transform: scale(1.03); }
+    .tab-btn.activo { background-color: #ff6f91; color: white; box-shadow: 0 4px 15px rgba(255, 100, 130, 0.4); }
+
+    .seccion { display: none; }
+    .seccion.activa { display: block; }
+
+    .cartas-lista {
+      display: flex; flex-direction: column; gap: 1.5rem; align-items: center;
+    }
+
+    .carta {
+      width: 100%; max-width: 600px; border-radius: 1.5rem; padding: 2rem 1.8rem;
+      background-color: #fff;
+      text-align: center; position: relative; overflow: visible;
+      transition: transform 0.3s;
+    }
+    .carta:hover { transform: translateY(-3px); }
+
+    .deco-esquina { position: absolute; font-size: 2.2rem; pointer-events: none; z-index: 3; }
+    .deco-lado { position: absolute; font-size: 1.1rem; pointer-events: none; opacity: 0.4; z-index: 2; }
+
+    .carta-titulo { font-size: 1.3rem; font-weight: bold; margin-bottom: 0.8rem; color: #700028; position: relative; z-index: 1; }
+    .carta-mensaje { font-size: 1.05rem; line-height: 1.7; color: #700028; white-space: pre-wrap; position: relative; z-index: 1; }
+    .carta-fecha { font-size: 0.85rem; color: #b0566e; margin-top: 0.8rem; font-style: italic; position: relative; z-index: 1; }
+
+    .carta-eliminar {
+      position: absolute; top: 8px; right: 12px; background: none; border: none;
+      font-size: 1.2rem; cursor: pointer; color: #d46a84; transition: transform 0.2s;
+      opacity: 0.5; z-index: 10;
+    }
+    .carta-eliminar:hover { transform: scale(1.3); opacity: 1; }
+
+    .deco-tulipanes {
+      background: linear-gradient(145deg, #fef6f9, #fce4ec);
+      box-shadow:
+        0 0 0 3px #f8b4c8,
+        0 0 0 8px #fce4ec,
+        0 0 0 11px #f2a0b8,
+        inset 0 0 20px rgba(232,126,160,0.08),
+        0 6px 25px rgba(232,126,160,0.25);
+    }
+
+    .deco-rosas {
+      background: linear-gradient(145deg, #fef0f3, #fce0e8);
+      box-shadow:
+        0 0 0 3px #d46a84,
+        0 0 0 8px #fce0e8,
+        0 0 0 11px #b3405a,
+        inset 0 0 20px rgba(179,64,90,0.08),
+        0 6px 25px rgba(179,64,90,0.25);
+    }
+
+    .deco-margaritas {
+      background: linear-gradient(145deg, #fffef5, #fef9e7);
+      box-shadow:
+        0 0 0 3px #f5d78e,
+        0 0 0 8px #fef9e7,
+        0 0 0 11px #f0c27a,
+        inset 0 0 20px rgba(240,194,122,0.08),
+        0 6px 25px rgba(240,194,122,0.25);
+    }
+
+    .deco-girasoles {
+      background: linear-gradient(145deg, #fffdf0, #fef5d3);
+      box-shadow:
+        0 0 0 3px #f0c27a,
+        0 0 0 8px #fef5d3,
+        0 0 0 11px #e8a317,
+        inset 0 0 20px rgba(232,163,23,0.08),
+        0 6px 25px rgba(232,163,23,0.25);
+    }
+
+    .deco-lavanda {
+      background: linear-gradient(145deg, #f8f4fc, #f0e8f8);
+      box-shadow:
+        0 0 0 3px #c9b0d8,
+        0 0 0 8px #f0e8f8,
+        0 0 0 11px #b39bc8,
+        inset 0 0 20px rgba(179,155,200,0.08),
+        0 6px 25px rgba(179,155,200,0.25);
+    }
+
+    .deco-mixto {
+      background: linear-gradient(145deg, #fef6f9, #fef9e7, #f8f4fc);
+      box-shadow:
+        0 0 0 3px #e8a317,
+        0 0 0 8px rgba(232,126,160,0.15),
+        0 0 0 11px #b39bc8,
+        inset 0 0 20px rgba(232,126,160,0.08),
+        0 6px 25px rgba(232,126,160,0.25);
+    }
+
+    .btn-agregar {
+      margin: 1.5rem 0; background: none; border: 2px dashed #ff6f91;
+      padding: 1rem 2rem; font-size: 1.1rem; color: #ff6f91;
+      border-radius: 1.5rem; cursor: pointer; transition: all 0.3s; font-family: inherit; font-weight: bold;
+    }
+    .btn-agregar:hover { background-color: #ff6f91; color: white; transform: scale(1.03); }
+
+    .carta-vacia { color: #b0566e; font-size: 1.1rem; margin: 2rem 0; font-style: italic; }
+
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4); z-index: 2000; justify-content: center; align-items: center;
+    }
+    .modal-overlay.visible { display: flex; }
+    .modal {
+      background: #fff; border-radius: 1.5rem; padding: 2rem; width: 90%; max-width: 500px;
+      max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    .modal h2 { color: #700028; margin-bottom: 1.2rem; font-size: 1.5rem; }
+    .modal label { display: block; text-align: left; color: #700028; font-weight: bold; margin: 0.8rem 0 0.3rem; }
+    .modal input, .modal textarea, .modal select {
+      width: 100%; padding: 0.7rem 1rem; border: 2px solid #ffb6c1; border-radius: 0.8rem;
+      font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.3s;
+    }
+    .modal input:focus, .modal textarea:focus { border-color: #ff6f91; }
+    .modal textarea { min-height: 150px; resize: vertical; }
+    .modal select { cursor: pointer; }
+    .modal-botones { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+    .modal-btn {
+      padding: 0.7rem 1.8rem; border: none; border-radius: 1.5rem; font-size: 1rem;
+      cursor: pointer; transition: all 0.3s; font-family: inherit; font-weight: bold;
+    }
+    .modal-btn.guardar { background-color: #ff6f91; color: white; }
+    .modal-btn.guardar:hover { background-color: #ff4d75; transform: scale(1.03); }
+    .modal-btn.cancelar { background-color: #e0a0b0; color: white; }
+    .modal-btn.cancelar:hover { background-color: #d08090; }
+
+    .deco-preview {
+      display: flex; gap: 1rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap;
+    }
+    .deco-opcion {
+      padding: 0.5rem 0.8rem; border-radius: 1rem; cursor: pointer; font-size: 1.3rem;
+      border: 2px solid transparent; transition: all 0.3s;
+    }
+    .deco-opcion:hover { transform: scale(1.1); }
+    .deco-opcion.seleccionada { border-color: #ff6f91; background-color: #fff0f5; }
+
     @media (max-width:480px) {
       body { padding: 6rem 1rem 2rem 1rem; }
-      .carta { padding: 1.5rem 1rem; font-size: 1rem; }
-      .boton-final { width: 90%; font-size: 1rem; }
+      .navbar { flex-direction: column; align-items: flex-start; padding: 0.8rem 1rem; }
+      .navbar-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+      .navbar-links a { font-size: 0.95rem; margin-left: 0; }
+      .carta { padding: 1.2rem 1rem; }
+      .tab-btn { padding: 0.6rem 1.2rem; font-size: 0.95rem; }
+      .modal { padding: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
   <header class="navbar">
     <div class="navbar-logo">💌 Para Ti</div>
     <nav class="navbar-links">
       <a href="index.html">Inicio</a>
       <a href="cartas.html">Cartas</a>
       <a href="horario.html">Horario</a>
+      <a href="galeria.html">Galería</a>
+      <a href="sorpresa.html">Sorpresa</a>
     </nav>
   </header>
 
-  <!-- Fondo animado -->
   <div class="fondo-corazones" id="fondoCorazones"></div>
 
-  <!-- Cartas -->
-  <main style="margin-top:120px;">
+  <main class="contenido">
 
-    <!-- Botón mostrar todas las cartas -->
-    <button onclick="mostrarTodasCartas()" class="boton-final">💌 Mostrar todas las cartas 💌</button>
-
-    <!-- Carta 1 -->
-    <button onclick="mostrarCarta(1)" class="boton-final">💌 Lee mi cartita 💌</button>
-    <div id="carta1" class="carta">
-      <p>Amor mío,</p>
-      <p>No existen palabras que describan lo especial que eres para mí.</p>
-      <p>Mi corazón siempre late por ti, y cada abrazo tuyo me hace sentir en casa.</p>
-      <p>Gracias por cada sonrisa, cada detalle y por ser como eres.</p>
-      <p>Te adoro con todo mi ser. ❤️</p>
+    <div class="tabs">
+      <button class="tab-btn activo" onclick="cambiarSeccion('para-mi')">💌 Cartas para mi novio</button>
+      <button class="tab-btn" onclick="cambiarSeccion('otras')">💕 Otras cartas</button>
     </div>
 
-    <button onclick="mostrarCarta(2)" class="boton-final">💌 Lee mi cartita 2 💌</button>
-    <div id="carta2" class="carta">
-      <p>Corazon,</p>
-      <p>Siempre me has apoyado en las cosas que me propongo.</p>
-      <p>Me gusta compartir mi vida contigo y sueño con cummplir logros contigo.</p>
-      <p>Espero ser mejor persona y pareja aunque tenga mis defectos.</p>
-      <p>Algun dia espero que seas feliz conmigo</p>
-      <p>y siempre te sientas conforme estando a mi lado. ❤️</p>
+    <div id="seccion-para-mi" class="seccion activa">
+      <div class="cartas-lista" id="lista-para-mi"></div>
+      <button class="btn-agregar" onclick="abrirModal('para-mi')">✍️ Escribir nueva carta</button>
     </div>
 
-    <button onclick="mostrarCarta(3)" class="boton-final">💌 Lee mi cartita 3 💌</button>
-    <div id="carta3" class="carta">
-      <p>Esto parece una continuacion de la otra,</p>
-      <p>pero no por eso es una mas especial que la otra.</p>
-      <p>Solo quiero transmitir contigo lo que siento </p>
-      <p>aunque seas la persona mas mañosa del mundo. </p>
-      <p>Te seguire amando y nunca te dejare ir</p>
-      <p>eres prisionera de todo el amor que te tengo.❤️</p>
+    <div id="seccion-otras" class="seccion">
+      <div class="cartas-lista" id="lista-otras"></div>
+      <button class="btn-agregar" onclick="abrirModal('otras')">✍️ Escribir nueva carta</button>
+      <button class="btn-agregar" style="border-style:solid;" onclick="mostrarTodas()">💌 Mostrar todas las cartas</button>
+      <button class="btn-agregar" style="border-style:solid;" onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
     </div>
-
-    <button onclick="mostrarCarta(4)" class="boton-final">💌 Lee mi cartita 4 💌</button>
-    <div id="carta4" class="carta">
-      <p>Eres lo mas apreciado que tengo disfruto estar contigo cuando no estas enojada jeje.</p>
-      <p>Pero aunque a veces peleemos, siempre buscaré una manera de arreglarlo.</p>
-      <p>Me da pena no tener plata aveces para poder comprarte algun regalo</p>
-      <p>y demostrar lo mucho que te amo pero siempre buscare una forma de hacerte feliz.</p>
-      <p>Me gusta pasar mi vida contigo eres la mejor y te amo mucho potito.❤️</p>
-    </div>
-
-    <button onclick="mostrarCarta(5)" class="boton-final">💌 Lee mi cartita 5 💌</button>
-    <div id="carta5" class="carta">
-      <p>Yo se que capaz me tarde con la pagina </p>
-      <p>Simplemente entre como en una costumbre de dejarlas pasar</p>
-      <p>Y me doy cuenta hoy que no estaba bien ya que es algo y a ti te gustan</p>
-      <p>A mi no me cuestan nada hacerlas para ti y te pido perdon por eso.</p>
-    </div>
-    <!-- Botón volver -->
-
-    <p></p>
-
-    <button onclick="mostrarCarta(6)" class="boton-final">💌 Lee mi cartita 6 💌</button>
-    <div id="carta6" class="carta">
-      <p>Esta carta la escribo para decir lo mucho que te amo </p>
-      <p>Tu no me creeras pero tu eres mi persona favorita del mundo</p>
-      <p>Estoy agradecido con la vida de habernos encotrado indepedientemente de los malos ratos</p>
-      <p>Yo siempre sabre que no me equivoque en elegirte a ti como mi compañera de vida.❤️</p>
-    </div>
-
-    <button onclick="mostrarCarta(7)" class="boton-final">💌 Lee mi cartita 7 💌</button>
-    <div id="carta7" class="carta">
-      <p>Ya sobran las palabras para decirte lo mucho te amo </p>
-      <p>Siempre he tratado de dejartelo en claro y espero que con esto lo entiendas</p>
-      <p>Yo siempre te amare y espero algun dia que tengas la suficiente confianza en mi para poder ser felices al maximo</p>
-      <p>Yo siempre estare orgulloso de ti y espero poder compartir</p>
-      <p>Todos los momentos contigo sean buenos o malos yo quiero estar para siempre al lado tuyo.❤️</p>
-    </div>
-
-    <button onclick="mostrarCarta(8)" class="boton-final">💌 Lee mi cartita 8 💌</button>
-    <div id="carta8" class="carta">
-      <p>Esta ultima carta es un recordatorio de vida </p>
-      <p>Aquellos momentos que quiero trasmitir las peleas que me han llevado a ser mejor persona</p>
-      <p>Gracias a ti soy una persona mas considera me haces ver mis propios de mis errores </p>
-      <p>Eres como un angel para mi aparte de ser la mujer mas hermosa del mundo</p>
-      <p>Mi giua para se mejor persona y aspiro a convertirme en algo que tu estes orgullosa y amada.❤️</p>
-    </div>
-
-    <button class="boton-final" onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
 
   </main>
 
-  <!-- JS -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <h2 id="modal-titulo">✍️ Escribir carta</h2>
+      <label>Título de la carta</label>
+      <input type="text" id="input-titulo" placeholder="Ej: Para ti mi amor..." maxlength="100">
+
+      <label>Mensaje</label>
+      <textarea id="input-mensaje" placeholder="Escribe lo que sientes..."></textarea>
+
+      <label>Decoración floral</label>
+      <div class="deco-preview">
+        <span class="deco-opcion" data-deco="tulipanes" onclick="seleccionarDeco('tulipanes')">🌷 Tulipanes</span>
+        <span class="deco-opcion" data-deco="rosas" onclick="seleccionarDeco('rosas')">🌹 Rosas</span>
+        <span class="deco-opcion" data-deco="margaritas" onclick="seleccionarDeco('margaritas')">🌼 Margaritas</span>
+        <span class="deco-opcion" data-deco="girasoles" onclick="seleccionarDeco('girasoles')">🌻 Girasoles</span>
+        <span class="deco-opcion" data-deco="lavanda" onclick="seleccionarDeco('lavanda')">💜 Lavanda</span>
+        <span class="deco-opcion seleccionada" data-deco="mixto" onclick="seleccionarDeco('mixto')">🌷🌹 Mixto</span>
+      </div>
+
+      <div class="modal-botones">
+        <button class="modal-btn guardar" onclick="guardarCarta()">💾 Guardar carta</button>
+        <button class="modal-btn cancelar" onclick="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    function mostrarCarta(num) {
-      const carta = document.getElementById('carta' + num);
-      if (!carta) return;
-      carta.style.display = carta.style.display === 'none' ? 'block' : 'none';
+    const DECO_ICONOS = {
+      tulipanes: '🌷 🌷 🌷 🌷 🌷',
+      rosas: '🌹 🌹 🌹 🌹 🌹',
+      margaritas: '🌼 🌼 🌼 🌼 🌼',
+      girasoles: '🌻 🌻 🌻 🌻 🌻',
+      lavanda: '💜 💜 💜 💜 💜',
+      mixto: '🌷 🌹 🌼 🌻 💜'
+    };
+    const DECO_ESQUINAS = {
+      tulipanes: { tl: '🌷', tr: '🌷', br: '🌷', bl: '🌷' },
+      rosas: { tl: '🌹', tr: '🌹', br: '🌹', bl: '🌹' },
+      margaritas: { tl: '🌼', tr: '🌼', br: '🌼', bl: '🌼' },
+      girasoles: { tl: '🌻', tr: '🌻', br: '🌻', bl: '🌻' },
+      lavanda: { tl: '💐', tr: '💐', br: '💐', bl: '💐' },
+      mixto: { tl: '🌷', tr: '🌹', br: '🌻', bl: '🌼' }
+    };
+    const DECO_LADOS = {
+      tulipanes: ['🌸', '🌷', '🌺', '🌷', '🌸', '🌷'],
+      rosas: ['🌹', '🌸', '🌹', '🌺', '🌹', '🌸'],
+      margaritas: ['🌼', '🌻', '🌼', '🌺', '🌼', '🌻'],
+      girasoles: ['🌻', '🌼', '🌻', '🌸', '🌻', '🌼'],
+      lavanda: ['💐', '🌸', '💐', '🌷', '💐', '🌸'],
+      mixto: ['🌷', '🌹', '🌼', '🌻', '💐', '🌸']
+    };
+    const DECO_PETALOS = {
+      tulipanes: ['🌸', '💗', '🌷'],
+      rosas: ['🌹', '❤️', '🌸'],
+      margaritas: ['🌼', '💛', '🌻'],
+      girasoles: ['🌻', '⭐', '🌼'],
+      lavanda: ['💐', '💜', '🌸'],
+      mixto: ['🌸', '💖', '🌹']
+    };
+
+    let cartas = { 'para-mi': [], 'otras': [] };
+    let seccionActual = 'para-mi';
+    let decoSeleccionada = 'mixto';
+
+    const CARTAS_INICIALES = {
+      'para-mi': [],
+      'otras': [
+        { id: 'ot1', titulo: 'Mi primera cartita', mensaje: 'Amor mío,\n\nNo existen palabras que describan lo especial que eres para mí.\nMi corazón siempre late por ti, y cada abrazo tuyo me hace sentir en casa.\nGracias por cada sonrisa, cada detalle y por ser como eres.\nTe adoro con todo mi ser. ❤️', fecha: '', deco: 'tulipanes' },
+        { id: 'ot2', titulo: 'Mi cartita 2', mensaje: 'Corazon,\n\nSiempre me has apoyado en las cosas que me propongo.\nMe gusta compartir mi vida contigo y sueño con cumplir logros contigo.\nEspero ser mejor persona y pareja aunque tenga mis defectos.\nAlgun dia espero que seas feliz conmigo\ny siempre te sientas conforme estando a mi lado. ❤️', fecha: '', deco: 'margaritas' },
+        { id: 'ot3', titulo: 'Mi cartita 3', mensaje: 'Esto parece una continuacion de la otra,\npero no por eso es una mas especial que la otra.\nSolo quiero transmitir contigo lo que siento\naunque seas la persona mas mañosa del mundo.\nTe seguire amando y nunca te dejare ir\neres prisionera de todo el amor que te tengo. ❤️', fecha: '', deco: 'mixto' },
+        { id: 'ot4', titulo: 'Mi cartita 4', mensaje: 'Eres lo mas apreciado que tengo disfruto estar contigo cuando no estas enojada jeje.\nPero aunque a veces peleemos, siempre buscaré una manera de arreglarlo.\nMe da pena no tener plata aveces para poder comprarte algun regalo\ny demostrar lo mucho que te amo pero siempre buscare una forma de hacerte feliz.\nMe gusta pasar mi vida contigo eres la mejor y te amo mucho potito.❤️', fecha: '', deco: 'rosas' },
+        { id: 'ot5', titulo: 'Mi cartita 5', mensaje: 'Yo se que capaz me tarde con la pagina\nSimplemente entre como en una costumbre de dejarlas pasar\nY me doy cuenta hoy que no estaba bien ya que es algo y a ti te gustan\nA mi no me cuestan nada hacerlas para ti y te pido perdon por eso.', fecha: '', deco: 'girasoles' },
+        { id: 'ot6', titulo: 'Mi cartita 6', mensaje: 'Esta carta la escribo para decir lo mucho que te amo\nTu no me creeras pero tu eres mi persona favorita del mundo\nEstoy agradecido con la vida de habernos encontrado independientemente de los malos ratos\nYo siempre sabre que no me equivoque en elegirte a ti como mi compañera de vida.❤️', fecha: '', deco: 'lavanda' },
+        { id: 'ot7', titulo: 'Mi cartita 7', mensaje: 'Ya sobran las palabras para decirte lo mucho te amo\nSiempre he tratado de dejartelo en claro y espero que con esto lo entiendas\nYo siempre te amare y espero algun dia que tengas la suficiente confianza en mi para poder ser felices al maximo\nYo siempre estare orgulloso de ti y espero poder compartir\nTodos los momentos contigo sean buenos o malos yo quiero estar para siempre al lado tuyo.❤️', fecha: '', deco: 'tulipanes' },
+        { id: 'ot8', titulo: 'Mi cartita 8', mensaje: 'Esta ultima carta es un recordatorio de vida\nAquellos momentos que quiero transmitir las peleas que me han llevado a ser mejor persona\nGracias a ti soy una persona mas considerada me haces ver mis propios errores\nEres como un angel para mi aparte de ser la mujer mas hermosa del mundo\nMi guia para ser mejor persona y aspiro a convertirme en algo de lo que tu estes orgullosa y amada.❤️', fecha: '', deco: 'rosas' }
+      ]
+    };
+
+    function cambiarSeccion(seccion) {
+      seccionActual = seccion;
+      document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+      document.getElementById('seccion-' + seccion).classList.add('activa');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+      document.querySelectorAll('.tab-btn')[seccion === 'para-mi' ? 0 : 1].classList.add('activo');
     }
 
-    function mostrarTodasCartas() {
-      for (let i = 1; i <= 9; i++) {
-        const carta = document.getElementById('carta' + i);
-        if (carta) carta.style.display = 'block';
+    function cargarCartas() {
+      const version = localStorage.getItem('cartas-version');
+      if (version !== '3') {
+        localStorage.removeItem('cartas-amor');
+        localStorage.setItem('cartas-version', '3');
       }
+      const guardado = localStorage.getItem('cartas-amor');
+      if (guardado) {
+        try {
+          const parsed = JSON.parse(guardado);
+          cartas['para-mi'] = parsed['para-mi'] || [];
+          cartas['otras'] = parsed['otras'] || [];
+          return;
+        } catch(e) {}
+      }
+      cartas = JSON.parse(JSON.stringify(CARTAS_INICIALES));
+      guardarCartas();
     }
 
-    // Fondo animado Pochacco
+    function guardarCartas() {
+      localStorage.setItem('cartas-amor', JSON.stringify(cartas));
+    }
+
+    function renderizarCartas() {
+      ['para-mi', 'otras'].forEach(seccion => {
+        const lista = document.getElementById('lista-' + seccion);
+        lista.innerHTML = '';
+        if (cartas[seccion].length === 0) {
+          lista.innerHTML = '<p class="carta-vacia">💌 No hay cartas aún. ¡Escribe una!</p>';
+          return;
+        }
+        cartas[seccion].forEach(c => {
+          const div = document.createElement('div');
+          const deco = c.deco || 'mixto';
+          div.className = 'carta deco-' + deco;
+
+          const esquinas = DECO_ESQUINAS[deco] || DECO_ESQUINAS.mixto;
+          const lados = DECO_LADOS[deco] || DECO_LADOS.mixto;
+          const petalos = DECO_PETALOS[deco] || DECO_PETALOS.mixto;
+
+          div.innerHTML =
+            '<span class="deco-esquina" style="top:-14px;left:-8px;font-size:2.8rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">' + esquinas.tl + '</span>' +
+            '<span class="deco-esquina" style="top:-14px;right:-8px;font-size:2.8rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">' + esquinas.tr + '</span>' +
+            '<span class="deco-esquina" style="bottom:-14px;left:-8px;font-size:2.8rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">' + esquinas.bl + '</span>' +
+            '<span class="deco-esquina" style="bottom:-14px;right:-8px;font-size:2.8rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));">' + esquinas.br + '</span>' +
+            '<span class="deco-lado" style="top:30%;left:-16px;font-size:1.4rem;transform:rotate(-15deg);">' + petalos[0] + '</span>' +
+            '<span class="deco-lado" style="top:60%;left:-14px;font-size:1.2rem;transform:rotate(10deg);">' + petalos[1] + '</span>' +
+            '<span class="deco-lado" style="top:30%;right:-16px;font-size:1.4rem;transform:rotate(15deg);">' + petalos[0] + '</span>' +
+            '<span class="deco-lado" style="top:60%;right:-14px;font-size:1.2rem;transform:rotate(-10deg);">' + petalos[1] + '</span>' +
+            '<div class="deco-iconos" style="font-size:1.4rem;margin-bottom:0.8rem;letter-spacing:0.4rem;opacity:0.7;position:relative;z-index:1;">' + (DECO_ICONOS[deco] || DECO_ICONOS.mixto) + '</div>' +
+            '<div class="carta-titulo">' + escapeHtml(c.titulo) + '</div>' +
+            '<div class="carta-mensaje">' + escapeHtml(c.mensaje) + '</div>' +
+            (c.fecha ? '<div class="carta-fecha">' + c.fecha + '</div>' : '') +
+            '<button class="carta-eliminar" onclick="eliminarCarta(\'' + seccion + '\',\'' + c.id + '\')" title="Eliminar">✕</button>';
+
+          lista.appendChild(div);
+        });
+      });
+    }
+
+    function escapeHtml(text) {
+      const d = document.createElement('div');
+      d.textContent = text;
+      return d.innerHTML;
+    }
+
+    function abrirModal(seccion) {
+      seccionActual = seccion;
+      document.getElementById('modal-titulo').textContent = '✍️ Escribir carta para ' + (seccion === 'para-mi' ? 'mi novio' : 'ella');
+      document.getElementById('input-titulo').value = '';
+      document.getElementById('input-mensaje').value = '';
+      decoSeleccionada = 'tulipanes';
+      document.querySelectorAll('.deco-opcion').forEach(el => el.classList.remove('seleccionada'));
+      document.querySelector('.deco-opcion[data-deco="tulipanes"]').classList.add('seleccionada');
+      document.getElementById('modal-overlay').classList.add('visible');
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal-overlay').classList.remove('visible');
+    }
+
+    function seleccionarDeco(deco) {
+      decoSeleccionada = deco;
+      document.querySelectorAll('.deco-opcion').forEach(el => el.classList.remove('seleccionada'));
+      document.querySelector('.deco-opcion[data-deco="' + deco + '"]').classList.add('seleccionada');
+    }
+
+    function guardarCarta() {
+      const titulo = document.getElementById('input-titulo').value.trim();
+      const mensaje = document.getElementById('input-mensaje').value.trim();
+      if (!titulo || !mensaje) {
+        alert('Por favor escribe un título y un mensaje para la carta 💌');
+        return;
+      }
+      const carta = {
+        id: 'c' + Date.now() + Math.random().toString(36).substr(2, 4),
+        titulo: titulo,
+        mensaje: mensaje,
+        fecha: new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }),
+        deco: decoSeleccionada
+      };
+      cartas[seccionActual].push(carta);
+      guardarCartas();
+      renderizarCartas();
+      cerrarModal();
+    }
+
+    function eliminarCarta(seccion, id) {
+      if (!confirm('¿Eliminar esta carta? 💔')) return;
+      cartas[seccion] = cartas[seccion].filter(c => c.id !== id);
+      guardarCartas();
+      renderizarCartas();
+    }
+
+    function mostrarTodas() {
+      document.querySelectorAll('#lista-otras .carta').forEach(c => c.style.display = 'block');
+    }
+
     function crearPochacco() {
       const img = document.createElement('img');
       img.src = 'img/pochacco.webp';
@@ -219,7 +444,13 @@
       setTimeout(() => img.remove(), 10000);
     }
     setInterval(crearPochacco, 700);
-  </script>
 
+    document.getElementById('modal-overlay').addEventListener('click', function(e) {
+      if (e.target === this) cerrarModal();
+    });
+
+    cargarCartas();
+    renderizarCartas();
+  </script>
 </body>
 </html>
