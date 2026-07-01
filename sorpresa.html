@@ -145,6 +145,8 @@
     <div class="navbar-logo">💌 Para Ti</div>
     <nav class="navbar-links">
       <a href="index.html">Inicio</a>
+      <a href="index.html#collage">Collage</a>
+      <a href="index.html#juego">Juego</a>
       <a href="cartas.html">Cartas</a>
       <a href="horario.html">Horario</a>
       <a href="galeria.html">Galería</a>
@@ -162,7 +164,7 @@
       <h1>💕 ¿Quieres seguir conmigo? 💕</h1>
       <p class="sub">Prometo seguir haciendo que cada día a tu lado sea especial...</p>
       <div class="botones" id="botones">
-            <button class="btn-si" id="btnSi" onmouseenter="hacerMasGrande()" ontouchstart="hacerMasGrande()" onclick="responderSi()">¡Sí, siempre! 💖</button>
+            <button class="btn-si" id="btnSi" onclick="hacerMasGrande();responderSi()">¡Sí, siempre! 💖</button>
         <button class="btn-no" id="btnNo" onclick="responderNo()">No 💔</button>
       </div>
     </div>
@@ -186,7 +188,7 @@
     let fotosDisponibles = [];
     let fotosUsadas = [];
 
-    function obtenerFotos() {
+    async function obtenerFotos() {
       fotosDisponibles = [
         'img/IMAGEN1.jpg','img/IMAGEN2.jpeg','img/IMAGEN3.jpeg','img/IMAGEN4.jpeg',
         'img/IMAGEN5.jpeg','img/IMAGEN6.jpeg','img/IMAGEN7.jpeg','img/IMAGEN8.jpeg',
@@ -196,18 +198,21 @@
         'img/IMAGEN21.jpeg','img/IMAGEN22.jpeg'
       ];
       try {
-        const req = indexedDB.open('GaleriaFotos', 1);
-        req.onsuccess = function() {
-          const db = req.result;
-          const tx = db.transaction('fotos', 'readonly');
-          const store = tx.objectStore('fotos');
+        const db = await new Promise((resolve, reject) => {
+          const req = indexedDB.open('GaleriaFotos', 1);
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+        const tx = db.transaction('fotos', 'readonly');
+        const store = tx.objectStore('fotos');
+        const result = await new Promise((resolve, reject) => {
           const r = store.getAll();
-          r.onsuccess = function() {
-            if (r.result && r.result.length > 0) {
-              r.result.forEach(f => fotosDisponibles.push(f.src));
-            }
-          };
-        };
+          r.onsuccess = () => resolve(r.result);
+          r.onerror = () => reject(r.error);
+        });
+        if (result && result.length > 0) {
+          result.forEach(f => fotosDisponibles.push(f.src));
+        }
       } catch(e) {}
     }
 
@@ -222,6 +227,9 @@
 
     function hacerMasGrande() {
       const btnSi = document.getElementById('btnSi');
+      if (btnSi.dataset.animating) return;
+      btnSi.dataset.animating = '1';
+      setTimeout(() => { delete btnSi.dataset.animating; }, 200);
       let escala = parseFloat(btnSi.dataset.escala || '1');
       escala += 0.3;
       btnSi.dataset.escala = escala;
@@ -289,8 +297,8 @@
       document.getElementById('fondoCorazones').appendChild(img);
       setTimeout(() => img.remove(), 10000);
     }
-    setInterval(crearPochacco, 700);
-    obtenerFotos();
+    setInterval(crearPochacco, 1500);
+    (async function() { await obtenerFotos(); })();
   </script>
 </body>
 </html>

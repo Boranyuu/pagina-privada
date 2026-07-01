@@ -199,6 +199,8 @@
     <div class="navbar-logo">💌 Para Ti</div>
     <nav class="navbar-links">
       <a href="index.html">Inicio</a>
+      <a href="index.html#collage">Collage</a>
+      <a href="index.html#juego">Juego</a>
       <a href="cartas.html">Cartas</a>
       <a href="horario.html">Horario</a>
       <a href="galeria.html">Galería</a>
@@ -223,7 +225,6 @@
     <div id="seccion-otras" class="seccion">
       <div class="cartas-lista" id="lista-otras"></div>
       <button class="btn-agregar" onclick="abrirModal('otras')">✍️ Escribir nueva carta</button>
-      <button class="btn-agregar" style="border-style:solid;" onclick="mostrarTodas()">💌 Mostrar todas las cartas</button>
       <button class="btn-agregar" style="border-style:solid;" onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
     </div>
 
@@ -429,10 +430,6 @@
       renderizarCartas();
     }
 
-    function mostrarTodas() {
-      document.querySelectorAll('#lista-otras .carta').forEach(c => c.style.display = 'block');
-    }
-
     function crearPochacco() {
       const img = document.createElement('img');
       img.src = 'img/pochacco.webp';
@@ -443,7 +440,7 @@
       document.getElementById('fondoCorazones').appendChild(img);
       setTimeout(() => img.remove(), 10000);
     }
-    setInterval(crearPochacco, 700);
+    setInterval(crearPochacco, 1500);
 
     document.getElementById('modal-overlay').addEventListener('click', function(e) {
       if (e.target === this) cerrarModal();

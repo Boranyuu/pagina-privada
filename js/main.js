@@ -7,26 +7,6 @@
     alert('Gracias por compartir este momento conmigo 🥰');
   }
 
-  // Frases bonitas para mostrar en la carta
-  const frases = [
-    "Eres mi persona favorita.",
-    "Cada momento contigo es mi favorito.",
-    "Tú haces que todo valga la pena.",
-    "No necesito nada más si te tengo a ti.",
-    "Te amo más de lo que las palabras pueden decir.",
-    "Gracias por existir en mi vida."
-  ];
-
-  function mostrarFrase() {
-    const random = frases[Math.floor(Math.random() * frases.length)];
-    const fraseCaja = document.getElementById('cajaFrase');
-    document.getElementById('fraseAmor').textContent = random;
-    fraseCaja.style.display = 'block';
-    window.scrollTo({ top: fraseCaja.offsetTop, behavior: 'smooth' });
-  }
-
-
-
   // Fondo animado con pochaccos que caen
   function crearPochacco() {
     const img = document.createElement('img');
@@ -38,7 +18,7 @@
     document.getElementById('fondoCorazones').appendChild(img);
     setTimeout(() => img.remove(), 10000);
   }
-  setInterval(crearPochacco, 700);
+  setInterval(crearPochacco, 1500);
 
   // Esperar a que el DOM esté listo para iniciar el juego
   document.addEventListener('DOMContentLoaded', () => {
