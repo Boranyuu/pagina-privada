@@ -189,6 +189,14 @@
     let fotosUsadas = [];
 
     async function obtenerFotos() {
+      try {
+        const res = await fetch('/api/fotos');
+        if (res.ok) {
+          const archivos = await res.json();
+          fotosDisponibles = archivos.map(f => 'img/' + f);
+          return;
+        }
+      } catch(e) {}
       fotosDisponibles = [
         'img/IMAGEN1.jpg','img/IMAGEN2.jpeg','img/IMAGEN3.jpeg','img/IMAGEN4.jpeg',
         'img/IMAGEN5.jpeg','img/IMAGEN6.jpeg','img/IMAGEN7.jpeg','img/IMAGEN8.jpeg',

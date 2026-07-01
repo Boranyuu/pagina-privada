@@ -147,17 +147,9 @@
   </div>
 
   <script>
-    const fotosExistentes = [
-      'IMAGEN1.jpg','IMAGEN2.jpeg','IMAGEN3.jpeg','IMAGEN4.jpeg',
-      'IMAGEN5.jpeg','IMAGEN6.jpeg','IMAGEN7.jpeg','IMAGEN8.jpeg',
-      'IMAGEN9.jpeg','IMAGEN10.jpeg','IMAGEN11.jpeg','IMAGEN12.jpeg',
-      'IMAGEN13.jpeg','IMAGEN14.jpeg','IMAGEN15.jpeg','IMAGEN16.jpeg',
-      'IMAGEN17.jpeg','IMAGEN18.jpeg','IMAGEN19.jpeg','IMAGEN20.jpeg',
-      'IMAGEN21.jpeg','IMAGEN22.jpeg'
-    ];
-
     let fotos = [];
     let db = null;
+    let usarServidor = false;
 
     function abrirDB() {
       return new Promise((resolve, reject) => {
@@ -173,7 +165,32 @@
       });
     }
 
+    async function cargarFotosServidor() {
+      try {
+        const res = await fetch('/api/fotos');
+        if (!res.ok) return false;
+        const archivos = await res.json();
+        fotos = archivos.map(f => ({ tipo: 'archivo', src: 'img/' + f }));
+        return true;
+      } catch(e) {
+        return false;
+      }
+    }
+
     async function cargarFotos() {
+      if (await cargarFotosServidor()) {
+        usarServidor = true;
+        return;
+      }
+      usarServidor = false;
+      const fotosExistentes = [
+        'IMAGEN1.jpg','IMAGEN2.jpeg','IMAGEN3.jpeg','IMAGEN4.jpeg',
+        'IMAGEN5.jpeg','IMAGEN6.jpeg','IMAGEN7.jpeg','IMAGEN8.jpeg',
+        'IMAGEN9.jpeg','IMAGEN10.jpeg','IMAGEN11.jpeg','IMAGEN12.jpeg',
+        'IMAGEN13.jpeg','IMAGEN14.jpeg','IMAGEN15.jpeg','IMAGEN16.jpeg',
+        'IMAGEN17.jpeg','IMAGEN18.jpeg','IMAGEN19.jpeg','IMAGEN20.jpeg',
+        'IMAGEN21.jpeg','IMAGEN22.jpeg'
+      ];
       let subidas = [];
       try {
         await abrirDB();
@@ -201,7 +218,7 @@
           tx.onerror = () => reject(tx.error);
         });
       } catch(e) {
-        alert('💔 No se pudieron guardar las fotos. Intenta con menos fotos o más pequeñas.');
+        alert('💔 No se pudieron guardar las fotos. Revisá el almacenamiento del navegador.');
       }
     }
 
@@ -217,7 +234,7 @@
         div.className = 'foto-item';
         div.innerHTML = '<img src="' + f.src + '" alt="Foto ' + (i+1) + '" onclick="verFoto(\'' + f.src.replace(/'/g, "\\'") + '\')">' +
           '<button class="eliminar-foto" onclick="eliminarFoto(' + i + ')" title="Eliminar">✕</button>' +
-          (f.tipo === 'base64' ? '<button class="descargar-foto" onclick="descargarFoto(' + i + ')" title="Guardar en img/">💾</button>' : '');
+          (!usarServidor && f.tipo === 'base64' ? '<button class="descargar-foto" onclick="descargarFoto(' + i + ')" title="Guardar en img/">💾</button>' : '');
         grid.appendChild(div);
       });
     }
@@ -231,10 +248,15 @@
       document.getElementById('modalVer').classList.remove('visible');
     }
 
-    function eliminarFoto(i) {
+    async function eliminarFoto(i) {
       if (!confirm('¿Eliminar esta foto de la galería? 💔')) return;
+      if (usarServidor) {
+        try {
+          await fetch('/api/eliminar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ archivo: fotos[i].src.replace('img/', '') }) });
+        } catch(e) {}
+      }
       fotos.splice(i, 1);
-      guardarFotos();
+      if (!usarServidor) guardarFotos();
       renderizarFotos();
     }
 
@@ -248,8 +270,9 @@
     }
 
     function exportarTodas() {
-      const subidas = fotos.filter((f, i) => f.tipo === 'base64');
+      const subidas = fotos.filter(f => f.tipo === 'base64');
       if (subidas.length === 0) {
+        if (usarServidor) { alert('📸 Todas las fotos ya están guardadas en la carpeta img/.'); return; }
         alert('📸 No hay fotos subidas para exportar.');
         return;
       }
@@ -266,9 +289,35 @@
       });
     }
 
+    async function subirAlServidor(files, cb) {
+      const formData = new FormData();
+      files.forEach(f => formData.append('fotos', f));
+      try {
+        const res = await fetch('/api/subir', { method: 'POST', body: formData });
+        if (!res.ok) throw new Error('Error');
+        const data = await res.json();
+        data.archivos.forEach(n => fotos.push({ tipo: 'archivo', src: 'img/' + n }));
+        cb();
+      } catch(e) {
+        cb('error');
+      }
+    }
+
     document.getElementById('input-foto').addEventListener('change', function(e) {
       const files = Array.from(e.target.files);
       if (files.length === 0) return;
+
+      if (usarServidor) {
+        subirAlServidor(files, function(err) {
+          if (err) {
+            alert('💔 Error al conectar con el servidor. Las fotos no se guardaron en img/.');
+            return;
+          }
+          renderizarFotos();
+        });
+        this.value = '';
+        return;
+      }
 
       let pendientes = files.length;
       let errores = 0;

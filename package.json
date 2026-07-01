@@ -1,0 +1,13 @@
+{
+  "name": "pagina-amor",
+  "version": "1.0.0",
+  "description": "Página web romántica con galería de fotos",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}
