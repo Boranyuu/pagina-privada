@@ -55,14 +55,16 @@
       width: 100%; height: 100%; object-fit: cover;
       display: block;
     }
-    .foto-item .eliminar-foto {
-      position: absolute; top: 5px; right: 5px;
-      background: rgba(255,255,255,0.8); border: none;
+    .foto-item .eliminar-foto, .foto-item .descargar-foto {
+      position: absolute; background: rgba(255,255,255,0.8); border: none;
       width: 28px; height: 28px; border-radius: 50%;
-      font-size: 0.9rem; cursor: pointer; color: #d46a84;
+      font-size: 0.9rem; cursor: pointer;
       opacity: 0; transition: opacity 0.3s; line-height: 28px;
+      text-align: center;
     }
-    .foto-item:hover .eliminar-foto { opacity: 1; }
+    .foto-item .eliminar-foto { top: 5px; right: 5px; color: #d46a84; }
+    .foto-item .descargar-foto { top: 5px; left: 5px; color: #6a8ad4; }
+    .foto-item:hover .eliminar-foto, .foto-item:hover .descargar-foto { opacity: 1; }
 
     .btn-agregar {
       margin: 1rem 0; background: none; border: 2px dashed #ff6f91;
@@ -211,7 +213,8 @@
         const div = document.createElement('div');
         div.className = 'foto-item';
         div.innerHTML = '<img src="' + f.src + '" alt="Foto ' + (i+1) + '" onclick="verFoto(\'' + f.src.replace(/'/g, "\\'") + '\')">' +
-          '<button class="eliminar-foto" onclick="eliminarFoto(' + i + ')" title="Eliminar">✕</button>';
+          '<button class="eliminar-foto" onclick="eliminarFoto(' + i + ')" title="Eliminar">✕</button>' +
+          (f.tipo === 'base64' ? '<button class="descargar-foto" onclick="descargarFoto(' + i + ')" title="Guardar en img/">💾</button>' : '');
         grid.appendChild(div);
       });
     }
@@ -230,6 +233,15 @@
       fotos.splice(i, 1);
       guardarFotos();
       renderizarFotos();
+    }
+
+    function descargarFoto(i) {
+      const f = fotos[i];
+      if (!f || f.tipo !== 'base64') return;
+      const link = document.createElement('a');
+      link.href = f.src;
+      link.download = 'foto-' + (i+1) + '.jpg';
+      link.click();
     }
 
     document.getElementById('input-foto').addEventListener('change', function(e) {
