@@ -187,14 +187,6 @@
     let fotosUsadas = [];
 
     function obtenerFotos() {
-      const guardadas = localStorage.getItem('galeria-fotos');
-      if (guardadas) {
-        try {
-          const parsed = JSON.parse(guardadas);
-          fotosDisponibles = parsed.map(f => f.src);
-          return;
-        } catch(e) {}
-      }
       fotosDisponibles = [
         'img/IMAGEN1.jpg','img/IMAGEN2.jpeg','img/IMAGEN3.jpeg','img/IMAGEN4.jpeg',
         'img/IMAGEN5.jpeg','img/IMAGEN6.jpeg','img/IMAGEN7.jpeg','img/IMAGEN8.jpeg',
@@ -203,6 +195,20 @@
         'img/IMAGEN17.jpeg','img/IMAGEN18.jpeg','img/IMAGEN19.jpeg','img/IMAGEN20.jpeg',
         'img/IMAGEN21.jpeg','img/IMAGEN22.jpeg'
       ];
+      try {
+        const req = indexedDB.open('GaleriaFotos', 1);
+        req.onsuccess = function() {
+          const db = req.result;
+          const tx = db.transaction('fotos', 'readonly');
+          const store = tx.objectStore('fotos');
+          const r = store.getAll();
+          r.onsuccess = function() {
+            if (r.result && r.result.length > 0) {
+              r.result.forEach(f => fotosDisponibles.push(f.src));
+            }
+          };
+        };
+      } catch(e) {}
     }
 
     function fotoRandom() {
