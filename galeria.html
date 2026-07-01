@@ -296,8 +296,10 @@
       if (e.target === this) cerrarModal();
     });
 
-    cargarFotos();
-    renderizarFotos();
+    (async function() {
+      await cargarFotos();
+      renderizarFotos();
+    })();
   </script>
 </body>
 </html>
