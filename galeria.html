@@ -134,6 +134,7 @@
 
     <label class="btn-agregar" for="input-foto">📷 Añadir nueva foto</label>
     <input type="file" id="input-foto" accept="image/*" multiple>
+    <button class="btn-agregar" style="border-style:solid;" onclick="exportarTodas()">📦 Exportar todas para PC</button>
   </main>
 
   <div class="modal-overlay" id="modalVer" onclick="cerrarModal()">
@@ -242,6 +243,25 @@
       link.href = f.src;
       link.download = 'foto-' + (i+1) + '.jpg';
       link.click();
+    }
+
+    function exportarTodas() {
+      const subidas = fotos.filter((f, i) => f.tipo === 'base64');
+      if (subidas.length === 0) {
+        alert('📸 No hay fotos subidas para exportar.');
+        return;
+      }
+      if (!confirm('Se descargarán ' + subidas.length + ' fotos. Guardalas en la carpeta img/ y actualizá la página.')) return;
+      let delay = 0;
+      subidas.forEach((f, i) => {
+        setTimeout(() => {
+          const link = document.createElement('a');
+          link.href = f.src;
+          link.download = 'foto-subida-' + (i+1) + '.jpg';
+          link.click();
+        }, delay);
+        delay += 800;
+      });
     }
 
     document.getElementById('input-foto').addEventListener('change', function(e) {
