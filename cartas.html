@@ -68,11 +68,12 @@
     .carta-fecha { font-size: 0.85rem; color: #b0566e; margin-top: 0.8rem; font-style: italic; position: relative; z-index: 1; }
 
     .carta-eliminar {
-      position: absolute; top: 8px; right: 12px; background: none; border: none;
-      font-size: 1.2rem; cursor: pointer; color: #d46a84; transition: transform 0.2s;
-      opacity: 0.5; z-index: 10;
+      position: absolute; top: 8px; right: 12px; background: rgba(255,255,255,0.9); border: none;
+      width: 30px; height: 30px; border-radius: 50%;
+      font-size: 1rem; cursor: pointer; color: #d46a84; transition: transform 0.2s;
+      z-index: 10; line-height: 30px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .carta-eliminar:hover { transform: scale(1.3); opacity: 1; }
+    .carta-eliminar:hover { transform: scale(1.3); }
 
     .deco-tulipanes {
       background: linear-gradient(145deg, #fef6f9, #fce4ec);
