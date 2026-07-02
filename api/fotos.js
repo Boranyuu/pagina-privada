@@ -20,31 +20,11 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: 'GitHub no configurado. Seteá GITHUB_REPO y GITHUB_TOKEN en Vercel.' });
   }
   try {
-    if (req.method === 'GET') {
-      const r = await fetch(GITHUB_API + '/repos/' + owner + '/' + repoName + '/contents/img', { headers: headers() });
-      if (!r.ok) return res.json([]);
-      const data = await r.json();
-      return res.json(data.filter(f => f.type === 'file').map(f => ({ nombre: f.name, url: f.download_url })));
-    }
-    if (req.method === 'POST') {
-      const { nombre, data: base64Data } = req.body || {};
-      if (!nombre || !base64Data) return res.status(400).json({ error: 'Falta nombre o data' });
-      const content = base64Data.replace(/^data:image\/\w+;base64,/, '');
-      const filePath = 'img/' + nombre;
-      const h = headers();
-      const check = await fetch(GITHUB_API + '/repos/' + owner + '/' + repoName + '/contents/' + filePath, { headers: h });
-      let sha = null;
-      if (check.ok) { const e = await check.json(); sha = e.sha; }
-      const body = { message: sha ? 'Actualizar ' + nombre : 'Agregar ' + nombre, content, branch: 'main' };
-      if (sha) body.sha = sha;
-      const put = await fetch(GITHUB_API + '/repos/' + owner + '/' + repoName + '/contents/' + filePath, {
-        method: 'PUT', headers: h, body: JSON.stringify(body)
-      });
-      if (!put.ok) { const err = await put.json(); return res.status(500).json({ error: err.message }); }
-      const putData = await put.json();
-      return res.json({ ok: true, archivos: [{ nombre: nombre, url: putData.content.download_url }] });
-    }
-    res.status(405).json({ error: 'Method not allowed' });
+    if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+    const r = await fetch(GITHUB_API + '/repos/' + owner + '/' + repoName + '/contents/img', { headers: headers() });
+    if (!r.ok) return res.json([]);
+    const data = await r.json();
+    return res.json(data.filter(f => f.type === 'file').map(f => ({ nombre: f.name, url: f.download_url })));
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
