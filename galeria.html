@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Galería 📸</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
       font-family: 'Comic Sans MS', sans-serif;
       text-align: center;
@@ -131,12 +131,13 @@
   <main class="contenido">
     <h1>Nuestros recuerdos 📸</h1>
     <p class="sub">Cada foto guarda un momento especial de nosotros 💕</p>
+    <p id="serverEstado" style="display:none; font-size:0.85rem; margin-bottom:0.5rem;"></p>
 
     <div class="grid-fotos" id="gridFotos"></div>
 
     <label class="btn-agregar" for="input-foto">📷 Añadir nueva foto</label>
     <input type="file" id="input-foto" accept="image/*" multiple>
-    <button class="btn-agregar" style="border-style:solid;" onclick="exportarTodas()">📦 Exportar todas para PC</button>
+    <button class="btn-agregar" style="border-style:solid;" id="btnExportar" onclick="exportarTodas()">📦 Exportar todas para PC</button>
   </main>
 
   <div class="modal-overlay" id="modalVer">
@@ -170,7 +171,12 @@
         const res = await fetch('/api/fotos');
         if (!res.ok) return false;
         const archivos = await res.json();
-        fotos = archivos.map(f => ({ tipo: 'archivo', src: 'img/' + f }));
+        if (!Array.isArray(archivos) || archivos.length === 0) return false;
+        if (typeof archivos[0] === 'string') {
+          fotos = archivos.map(f => ({ tipo: 'archivo', src: 'img/' + f }));
+        } else {
+          fotos = archivos.map(f => ({ tipo: 'archivo', src: f.url }));
+        }
         return true;
       } catch(e) {
         return false;
@@ -180,9 +186,15 @@
     async function cargarFotos() {
       if (await cargarFotosServidor()) {
         usarServidor = true;
+        document.getElementById('serverEstado').style.display = '';
+        document.getElementById('serverEstado').textContent = '✅ Servidor activo — sincronizado entre dispositivos';
+        document.getElementById('btnExportar').textContent = '📦 Ya están en img/ (sincronizadas)';
         return;
       }
       usarServidor = false;
+      document.getElementById('serverEstado').style.display = '';
+      document.getElementById('serverEstado').innerHTML = '⚠️ Sin servidor. Usá <code>iniciar-servidor.bat</code> y abrí la página desde <code>http://localhost:3000</code> para sincronizar fotos entre el celular y la PC.';
+      document.getElementById('serverEstado').style.color = '#b00040';
       const fotosExistentes = [
         'IMAGEN1.jpg','IMAGEN2.jpeg','IMAGEN3.jpeg','IMAGEN4.jpeg',
         'IMAGEN5.jpeg','IMAGEN6.jpeg','IMAGEN7.jpeg','IMAGEN8.jpeg',
@@ -260,13 +272,30 @@
       renderizarFotos();
     }
 
+    function descargarBase64(dataUrl, nombre) {
+      try {
+        const byteString = atob(dataUrl.split(',')[1]);
+        const mime = dataUrl.split(',')[0].match(/:(.*?);/)[1];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+        const blob = new Blob([ab], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = nombre;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(function() { document.body.removeChild(link); URL.revokeObjectURL(url); }, 1000);
+      } catch(e) {
+        window.open(dataUrl, '_blank');
+      }
+    }
+
     function descargarFoto(i) {
       const f = fotos[i];
       if (!f || f.tipo !== 'base64') return;
-      const link = document.createElement('a');
-      link.href = f.src;
-      link.download = 'foto-' + (i+1) + '.jpg';
-      link.click();
+      descargarBase64(f.src, 'foto-' + (i+1) + '.jpg');
     }
 
     function exportarTodas() {
@@ -280,27 +309,41 @@
       let delay = 0;
       subidas.forEach((f, i) => {
         setTimeout(() => {
-          const link = document.createElement('a');
-          link.href = f.src;
-          link.download = 'foto-subida-' + (i+1) + '.jpg';
-          link.click();
+          descargarBase64(f.src, 'foto-subida-' + (i+1) + '.jpg');
         }, delay);
         delay += 800;
       });
     }
 
     async function subirAlServidor(files, cb) {
-      const formData = new FormData();
-      files.forEach(f => formData.append('fotos', f));
-      try {
-        const res = await fetch('/api/subir', { method: 'POST', body: formData });
-        if (!res.ok) throw new Error('Error');
-        const data = await res.json();
-        data.archivos.forEach(n => fotos.push({ tipo: 'archivo', src: 'img/' + n }));
-        cb();
-      } catch(e) {
-        cb('error');
+      const errores = [];
+      for (const file of files) {
+        try {
+          const dataUrl = await new Promise(function(resolve) {
+            const r = new FileReader();
+            r.onload = function() { resolve(r.result); };
+            r.readAsDataURL(file);
+          });
+          const ext = file.name.split('.').pop().toLowerCase();
+          const nombre = 'foto_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6) + '.' + (ext === 'heic' || ext === 'heif' ? 'jpg' : ext);
+          const res = await fetch('/api/subir', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre: nombre, data: dataUrl })
+          });
+          if (!res.ok) throw new Error('Error');
+          const result = await res.json();
+          if (Array.isArray(result.archivos)) {
+            result.archivos.forEach(function(n) {
+              if (typeof n === 'string') fotos.push({ tipo: 'archivo', src: 'img/' + n });
+              else fotos.push({ tipo: 'archivo', src: n.url });
+            });
+          }
+        } catch(e) {
+          errores.push(file.name);
+        }
       }
+      cb(errores.length > 0 ? 'error' : undefined);
     }
 
     document.getElementById('input-foto').addEventListener('change', function(e) {
@@ -320,27 +363,23 @@
       }
 
       let pendientes = files.length;
-      let errores = 0;
       files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-          const img = new Image();
-          img.onload = function() {
-            try {
-              const canvas = document.createElement('canvas');
-              const MAX = 800;
-              let w = img.width, h = img.height;
-              if (w > MAX || h > MAX) {
-                if (w > h) { h = h * MAX / w; w = MAX; }
-                else { w = w * MAX / h; h = MAX; }
-              }
-              canvas.width = w; canvas.height = h;
-              const ctx = canvas.getContext('2d');
-              ctx.drawImage(img, 0, 0, w, h);
-              fotos.push({ tipo: 'base64', src: canvas.toDataURL('image/jpeg', 0.7) });
-            } catch(e) {
-              fotos.push({ tipo: 'base64', src: ev.target.result });
+        const objUrl = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = function() {
+          try {
+            const canvas = document.createElement('canvas');
+            const MAX = 800;
+            let w = img.width, h = img.height;
+            if (w > MAX || h > MAX) {
+              if (w > h) { h = h * MAX / w; w = MAX; }
+              else { w = w * MAX / h; h = MAX; }
             }
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            fotos.push({ tipo: 'base64', src: canvas.toDataURL('image/jpeg', 0.7) });
+            URL.revokeObjectURL(objUrl);
             pendientes--;
             if (pendientes === 0) {
               guardarFotos().then(renderizarFotos).catch(function() {
@@ -348,20 +387,29 @@
                 alert('💔 No se pudieron guardar las fotos. Revisá el almacenamiento del navegador.');
               });
             }
-          };
-          img.onerror = function() {
-            pendientes--;
-            errores++;
-            if (pendientes === 0) {
-              if (errores > 0) alert('⚠️ ' + errores + ' archivo(s) no se pudieron procesar (no son imágenes válidas).');
-              renderizarFotos();
-            }
-          };
-          img.src = ev.target.result;
+          } catch(e) {
+            URL.revokeObjectURL(objUrl);
+            const fallbackReader = new FileReader();
+            fallbackReader.onload = function(ev2) {
+              fotos.push({ tipo: 'base64', src: ev2.target.result });
+              pendientes--;
+              if (pendientes === 0) {
+                guardarFotos().then(renderizarFotos).catch(function() {
+                  renderizarFotos();
+                  alert('💔 No se pudieron guardar las fotos. Revisá el almacenamiento del navegador.');
+                });
+              }
+            };
+            fallbackReader.readAsDataURL(file);
+          }
         };
-        reader.readAsDataURL(file);
+        img.onerror = function() {
+          URL.revokeObjectURL(objUrl);
+          pendientes--;
+          if (pendientes === 0) renderizarFotos();
+        };
+        img.src = objUrl;
       });
-
       this.value = '';
     });
 

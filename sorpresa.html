@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sorpresa 💕</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
       font-family: 'Comic Sans MS', sans-serif;
       text-align: center;
@@ -38,6 +38,7 @@
       border-radius: 2rem; padding: 3rem 2rem;
       box-shadow: 0 10px 40px rgba(255,100,130,0.2);
       position: relative; z-index: 2;
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
       border: 3px solid rgba(255,182,193,0.5);
       transition: all 0.5s;
@@ -164,7 +165,7 @@
       <h1>💕 ¿Quieres seguir conmigo? 💕</h1>
       <p class="sub">Prometo seguir haciendo que cada día a tu lado sea especial...</p>
       <div class="botones" id="botones">
-            <button class="btn-si" id="btnSi" onclick="hacerMasGrande();responderSi()">¡Sí, siempre! 💖</button>
+            <button class="btn-si" id="btnSi" onclick="hacerMasGrande();responderSi()">¡Sí mi amor nunca te dejare de amar! 💖</button>
         <button class="btn-no" id="btnNo" onclick="responderNo()">No 💔</button>
       </div>
     </div>
@@ -176,7 +177,7 @@
         Eres la persona más especial de mi vida 💕<br>
         prometo seguir esforzándome cada día para hacerte feliz<br>
         y demostrarte lo mucho que te amo.<br><br>
-        ¡Te amo con todo mi corazón! ❤️
+        Te amare hoy y siempre mi amor ❤️
       </p>
       <button class="btn-si" onclick="volverInicio()">💌 Volver al inicio</button>
     </div>
@@ -193,8 +194,14 @@
         const res = await fetch('/api/fotos');
         if (res.ok) {
           const archivos = await res.json();
-          fotosDisponibles = archivos.map(f => 'img/' + f);
-          return;
+          if (Array.isArray(archivos) && archivos.length > 0) {
+            if (typeof archivos[0] === 'string') {
+              fotosDisponibles = archivos.map(f => 'img/' + f);
+            } else {
+              fotosDisponibles = archivos.map(f => f.url);
+            }
+            return;
+          }
         }
       } catch(e) {}
       fotosDisponibles = [
@@ -270,6 +277,7 @@
     }
 
     function responderSi() {
+      if (document.getElementById('respuesta').classList.contains('mostrar')) return;
       document.getElementById('pregunta').classList.add('oculta');
       const r = document.getElementById('respuesta');
       r.classList.add('mostrar');

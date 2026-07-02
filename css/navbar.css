@@ -2,10 +2,10 @@
 .navbar {
   position: fixed;
   top: 0;
-  left: 0;           /* Asegúrate de que esté alineado a la izquierda */
-  width: 100%;       /* Ocupa todo el ancho */
-  margin: 0;         /* Elimina cualquier margen */
-  padding: 1rem 2rem;/* Puedes mantener padding para separar contenido interno */
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem 0.8rem;
   background-color: #ffb6c1;
   box-shadow: 0 4px 10px rgba(255, 100, 130, 0.3);
   display: flex;
@@ -13,24 +13,50 @@
   align-items: center;
   z-index: 1000;
   font-family: 'Comic Sans MS', sans-serif;
-  box-sizing: border-box; /* Asegura que padding no aumente el ancho total */
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 0.3rem;
 }
 
 
 .navbar-logo {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: #700028;
+  white-space: nowrap;
+}
+
+.navbar-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.3rem;
 }
 
 .navbar-links a {
   color: #700028;
   text-decoration: none;
-  margin-left: 1.5rem;
-  font-size: 1.1rem;
+  margin-left: 0.5rem;
+  font-size: 0.95rem;
   transition: color 0.3s;
+  padding: 0.2rem 0.4rem;
 }
 
 .navbar-links a:hover {
   color: #ff4d75;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.4rem 0.5rem;
+    justify-content: center;
+  }
+  .navbar-logo {
+    font-size: 1rem;
+  }
+  .navbar-links a {
+    font-size: 0.8rem;
+    margin-left: 0.3rem;
+    padding: 0.15rem 0.3rem;
+  }
 }

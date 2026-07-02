@@ -31,12 +31,28 @@ app.get('/api/fotos', (req, res) => {
   });
 });
 
-app.post('/api/subir', upload.array('fotos', 20), (req, res) => {
-  if (!req.files || req.files.length === 0) {
-    return res.status(400).json({ error: 'No se subieron archivos' });
+app.post('/api/subir', express.json({ limit: '10mb' }), (req, res) => {
+  const body = req.body;
+  if (body && body.nombre && body.data) {
+    const matches = body.data.match(/^data:image\/\w+;base64,(.+)$/);
+    if (!matches) return res.status(400).json({ error: 'Formato inválido' });
+    const buffer = Buffer.from(matches[1], 'base64');
+    const ruta = path.join(IMG_DIR, body.nombre);
+    fs.writeFile(ruta, buffer, (err) => {
+      if (err) return res.status(500).json({ error: 'Error al guardar' });
+      res.json({ ok: true, archivos: [{ nombre: body.nombre, url: 'img/' + body.nombre }] });
+    });
+    return;
   }
-  const nombres = req.files.map(f => f.filename);
-  res.json({ ok: true, archivos: nombres });
+  const upload = multer({ dest: IMG_DIR });
+  upload.array('fotos', 20)(req, res, (err) => {
+    if (err) return res.status(500).json({ error: 'Error al subir' });
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: 'No se subieron archivos' });
+    }
+    const nombres = req.files.map(f => f.filename);
+    res.json({ ok: true, archivos: nombres });
+  });
 });
 
 app.post('/api/eliminar', express.json(), (req, res) => {
